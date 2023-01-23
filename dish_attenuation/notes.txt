@@ -1,0 +1,3 @@
+# Calibration
+Apparent frequency of 144.0125 on signal generator, as recieved by PlutoSDR
+144.013828

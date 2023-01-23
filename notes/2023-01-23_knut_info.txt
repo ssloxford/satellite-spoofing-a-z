@@ -1,0 +1,21 @@
+Overview paper by Uni Luxembourg in SATNEX
+    could be teamed up with them in future
+
+"Performance evaluation of SATCOM link in the presence of radio frequency interference"
+
+Volume29, Issue1, Special Issue: Special issue on Channel Modelling and
+Propagation Impairment Simulation Activities Within the SatNEx Project,
+January/February 2011
+https://onlinelibrary.wiley.com/doi/full/10.1002/sat.949
+
+E.g. for Ka Band, rain is a major impairment... But Ka is very
+attractive in terms of capacity, also for LEO earth
+observation satellites, whose high-resolution sensors these days can
+easily overwhelm an X-Band downlink.
+
+Atmospheric channel simulator for the simulation of propagation
+impairments for Ka band data downlink
+
+Questions:
+Are you looking at specific satellite links, like LEO S or L-band or
+more GEO Ku/Ka?

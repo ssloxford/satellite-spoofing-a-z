@@ -1,0 +1,3 @@
+Required packages:
+gnuradio
+py3-matplotlib
