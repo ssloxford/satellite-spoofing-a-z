@@ -1,0 +1,862 @@
+options:
+  parameters:
+    author: maraly
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: signal_strength_calib
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: agc_mode
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: 0,6,1,1
+    label: ''
+    label0: '"Off"'
+    label1: '"Sweep"'
+    label2: '"AGC"'
+    label3: ''
+    label4: ''
+    labels: '[]'
+    num_opts: '3'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[0, 1, 2]'
+    orient: Qt.QVBoxLayout
+    type: int
+    value: '0'
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 756.0]
+    rotation: 0
+    state: true
+- name: exp_angle
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: 0,5,1,1
+    label: Angle
+    type: real
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1168, 12.0]
+    rotation: 0
+    state: true
+- name: exp_name
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: 0,4,1,1
+    label: Dish name
+    type: string
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1016, 12.0]
+    rotation: 0
+    state: true
+- name: freq
+  id: qtgui_msgdigitalnumbercontrol
+  parameters:
+    ThousandsSeparator: ','
+    affinity: ''
+    alias: ''
+    comment: ''
+    gui_hint: 0,0,1,2
+    lbl: Center frequency
+    maxFreqHz: 3.5e9
+    maxoutbuf: '0'
+    minFreqHz: 80e6
+    minoutbuf: '0'
+    outputmsgname: freq
+    readOnly: 'False'
+    relBackgroundColor: black
+    relFontColor: white
+    value: '744800000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [440, 8.0]
+    rotation: 0
+    state: true
+- name: gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: 1,4,1,5
+    label: Input gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '1'
+    stop: '73'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [280, 8.0]
+    rotation: 0
+    state: true
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '3000000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 12.0]
+    rotation: 0
+    state: enabled
+- name: show_lpf
+  id: variable_qtgui_toggle_switch
+  parameters:
+    cellalignment: '1'
+    comment: ''
+    gui_hint: 0,8,1,1
+    initPressed: 'True'
+    label: Show LPF
+    outputmsgname: value
+    position: '4'
+    pressed: '1'
+    released: '0'
+    switchOffBackground: gray
+    switchOnBackground: green
+    type: int
+    value: '1'
+    verticalalignment: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 808.0]
+    rotation: 0
+    state: true
+- name: sig_delta
+  id: qtgui_msgdigitalnumbercontrol
+  parameters:
+    ThousandsSeparator: ','
+    affinity: ''
+    alias: ''
+    comment: ''
+    gui_hint: 0,2,1,2
+    lbl: Signal offset
+    maxFreqHz: '1000000'
+    maxoutbuf: '0'
+    minFreqHz: '100000'
+    minoutbuf: '0'
+    outputmsgname: sig_delta
+    readOnly: 'False'
+    relBackgroundColor: black
+    relFontColor: white
+    value: '332828'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 8.0]
+    rotation: 0
+    state: true
+- name: analog_fm_demod_cf_0
+  id: analog_fm_demod_cf
+  parameters:
+    affinity: ''
+    alias: ''
+    audio_decim: '15'
+    audio_pass: '2000'
+    audio_stop: '5000'
+    chan_rate: '300000'
+    comment: ''
+    deviation: '5000'
+    gain: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tau: 75e-6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 144.0]
+    rotation: 0
+    state: enabled
+- name: audio_sink_0
+  id: audio_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    device_name: ''
+    num_inputs: '1'
+    ok_to_block: 'True'
+    samp_rate: '20000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1224, 188.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_mag_0
+  id: blocks_complex_to_mag
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 312.0]
+    rotation: 0
+    state: true
+- name: blocks_keep_one_in_n_0
+  id: blocks_keep_one_in_n
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n: '10'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 192.0]
+    rotation: 0
+    state: true
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 504.0]
+    rotation: 0
+    state: true
+- name: blocks_null_sink_1
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1216, 112.0]
+    rotation: 0
+    state: disabled
+- name: blocks_rotator_cc_0
+  id: blocks_rotator_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    phase_inc: (-sig_delta)*6.28318530718 /samp_rate
+    tag_inc_update: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 296.0]
+    rotation: 0
+    state: true
+- name: blocks_selector_0
+  id: blocks_selector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    input_index: show_lpf
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    num_outputs: '2'
+    output_index: '0'
+    showports: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 400.0]
+    rotation: 0
+    state: true
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\nimport pmt\nfrom gnuradio import qtgui\n\n\nclass blk(gr.sync_block):\n\
+      \    def __init__(self, strength = 0.01, gain = 0, agc_mode = 0, sweep_delay\
+      \ = 0, sweep_step = 1):\n        gr.sync_block.__init__(self,\n            name=\"\
+      AGC\",\n            in_sig=[np.float32],\n            out_sig=None)\n\n    \
+      \    self.agc_mode = agc_mode\n        self.strength = strength\n\n        self.gain\
+      \ = gain\n        self.gain_block = None\n        self.control = None\n\n  \
+      \      self.portName = 'messageOutput'\n        self.message_port_register_out(pmt.intern(self.portName))\n\
+      \n        self.sweep_step = sweep_step\n        self.sweep_delay = sweep_delay\n\
+      \        self.stage = 0\n        self.counter = 0\n\n\n    def setup(self, gain_block,\
+      \ control_block):\n        self.gain_block = gain_block\n        self.gain =\
+      \ self.gain_block.value()\n        self.control = control_block\n\n    def work(self,\
+      \ input_items, output_items):\n        for i in range(len(input_items)):\n \
+      \           #Decrease gain\n            if(self.agc_mode == 2):\n          \
+      \      if(input_items[0][i] > 0.8):\n                    self.gain -= self.strength\n\
+      \                if(input_items[0][i] > 0.7):\n                    self.gain\
+      \ -= self.strength\n                if(input_items[0][i] < 0.3):\n         \
+      \           self.gain += self.strength\n                if(input_items[0][i]\
+      \ < 0.2):\n                    self.gain += self.strength\n                self.gain_block.setValue(int(self.gain))\n\
+      \n        if(self.agc_mode == 1):\n            if(input_items[0][-1] > 0.9 or\
+      \ self.gain > 70):\n                self.control.setCurrentIndex(0)\n      \
+      \          self.gain_block.setValue(0)\n            else:\n                self.counter\
+      \ += len(input_items)\n                if (self.counter > self.sweep_delay and\
+      \ self.stage == 0):\n                    PMT_msg = pmt.from_bool(True)\n   \
+      \                 self.message_port_pub(pmt.intern(self.portName), PMT_msg)\n\
+      \                    self.counter = self.sweep_delay\n                    self.stage\
+      \ = 1\n\n                if (self.counter > self.sweep_delay*1.5 and self.stage\
+      \ == 1):\n                    self.counter = 0\n                    self.stage\
+      \ = 0\n\n                    self.gain += self.sweep_step\n                \
+      \    self.gain_block.setValue(int(self.gain))\n        else:\n            self.counter\
+      \ = 0\n            self.stage = 0\n\n        return len(input_items[0])"
+    affinity: ''
+    agc_mode: agc_mode
+    alias: ''
+    comment: ''
+    gain: gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    strength: '0.01'
+    sweep_delay: '100'
+    sweep_step: '1'
+  states:
+    _io_cache: ('AGC', 'blk', [('strength', '0.01'), ('gain', '0'), ('agc_mode', '0'),
+      ('sweep_delay', '0'), ('sweep_step', '1')], [('0', 'float', 1)], [('messageOutput',
+      'message', 1)], '', ['agc_mode', 'gain', 'strength', 'sweep_delay', 'sweep_step'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 644.0]
+    rotation: 0
+    state: true
+- name: epy_block_1
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\n\n\nclass blk(gr.decim_block):\n    def __init__(self,\
+      \ batch_length = 65536):\n        gr.decim_block.__init__(self,\n          \
+      \  name=\"Decimating Max\",\n            in_sig=[np.complex64],\n          \
+      \  out_sig=[np.float32],\n            decim = batch_length)\n\n        self.set_relative_rate(1.0/batch_length)\n\
+      \        self.batch_length = batch_length\n\n    def work(self, input_items,\
+      \ output_items):\n        n_out_items = len(input_items[0]) // self.batch_length\n\
+      \        for i in range(0, n_out_items):\n            output_items[0][i] = np.max([\n\
+      \                np.max(np.abs(input_items[0][i*self.batch_length:(i+1)*self.batch_length].real)),\n\
+      \                np.max(np.abs(input_items[0][i*self.batch_length:(i+1)*self.batch_length].imag))\n\
+      \            ])\n        return len(output_items[0])"
+    affinity: ''
+    alias: ''
+    batch_length: '65536'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Decimating Max', 'blk', [('batch_length', '65536')], [('0', 'complex',
+      1)], [('0', 'float', 1)], '', ['batch_length'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 572.0]
+    rotation: 0
+    state: true
+- name: epy_block_2
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\n\n\nclass blk(gr.decim_block):\n    def __init__(self,\
+      \ batch_length = 65536):\n        gr.decim_block.__init__(self,\n          \
+      \  name=\"Decimating Averages\",\n            in_sig=[np.float32],\n       \
+      \     out_sig=[np.float32,np.float32],\n            decim = batch_length)\n\n\
+      \        self.set_relative_rate(1.0/batch_length)\n        self.batch_length\
+      \ = batch_length\n\n    def work(self, input_items, output_items):\n       \
+      \ n_out_items = len(input_items[0]) // self.batch_length\n        for i in range(0,\
+      \ n_out_items):\n            output_items[0][i] = np.average(input_items[0][i*self.batch_length:(i+1)*self.batch_length])\n\
+      \            output_items[1][i] = np.sqrt(\n                (np.average(np.square(input_items[0][i*self.batch_length:(i+1)*self.batch_length]))\
+      \ -\n                output_items[0][i]*output_items[0][i])\n            )\n\
+      \            pass\n        return n_out_items"
+    affinity: ''
+    alias: ''
+    batch_length: '65536'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Decimating Averages', 'blk', [('batch_length', '65536')], [('0',
+      'float', 1)], [('0', 'float', 1), ('1', 'float', 1)], '', ['batch_length'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 296.0]
+    rotation: 0
+    state: true
+- name: epy_block_3
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\nimport pmt\nimport time\n\n\nclass blk(gr.sync_block):\
+      \  # other base classes are basic_block, decim_block, interp_block\n    \"\"\
+      \"Embedded Python Block example - a simple multiply const\"\"\"\n\n    def __init__(self,\
+      \ filename=\"\", fmts=[], columns=[]):  # only default arguments here\n    \
+      \    \"\"\"arguments to this function show up as parameters in GRC\"\"\"\n \
+      \       self.vector_len = 2\n        gr.sync_block.__init__(\n            self,\n\
+      \            name='Value saver',   # will show up in GRC\n            in_sig=[np.float32]\
+      \ * self.vector_len,\n            out_sig=None\n        )\n        # if an attribute\
+      \ with the same name as a parameter is found,\n        # a callback is registered\
+      \ (properties work, too).\n        self.selectPortName = 'saveButton'\n    \
+      \    self.message_port_register_in(pmt.intern(self.selectPortName))\n      \
+      \  self.set_msg_handler(pmt.intern(self.selectPortName), self.handle_msg)\n\n\
+      \        self.fmts = fmts\n        self.columns = columns\n        self.last_values\
+      \ = np.zeros(self.vector_len)\n\n        if(filename != \"\"):\n           \
+      \ self.file = open(filename, \"a\")\n\n    def handle_msg(self, msg):\n    \
+      \    fmt = (\"%s\\t\" + (\"\\t\".join(self.fmts) + (\"\\t\" if 0<len(self.fmts)\
+      \ else 0)) + (\"%f\\t\"*self.vector_len) + \"\\n\")\n        self.file.write(fmt\
+      \ % (\n            time.strftime(\"%Y-%m-%d %H:%M:%S\"),\n            *self.columns,\n\
+      \            *self.last_values)\n        )\n\n    def stop(self):\n        self.file.close()\n\
+      \n    def work(self, input_items, output_items):\n        \"\"\"example: multiply\
+      \ with constant\"\"\"\n        self.last_values = [row[-1] for row in input_items]\n\
+      \        return len(input_items[0])\n"
+    affinity: ''
+    alias: ''
+    columns: '[exp_name,freq+sig_delta,exp_angle,gain]'
+    comment: ''
+    filename: '"test.csv"'
+    fmts: '["%s","%d","%f","%f"]'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Value saver', 'blk', [('filename', "''"), ('fmts', '[]'), ('columns',
+      '[]')], [('0', 'float', 1), ('1', 'float', 1), ('saveButton', 'message', 1)],
+      [], 'Embedded Python Block example - a simple multiply const', ['columns', 'fmts'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1296, 520.0]
+    rotation: 0
+    state: true
+- name: filter_fft_low_pass_filter_0
+  id: filter_fft_low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: '5000'
+    decim: '1'
+    gain: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nthreads: '1'
+    samp_rate: samp_rate
+    type: ccc
+    width: '200'
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 260.0]
+    rotation: 0
+    state: true
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: Distance to clipping (approximate calculation)
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: 1,0,1,2
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '0'
+    name: '"Saturation"'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 520.0]
+    rotation: 0
+    state: true
+- name: qtgui_number_sink_0_0_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: Amplitude of signal at given frequency
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: 1,2,1,1
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '0'
+    name: '"Amplitude"'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.01'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1224, 248.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_number_sink_0_0_0_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: Amplitude of signal at given frequency
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: 1,3,1,1
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '0'
+    name: '"RMS"'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.01'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1224, 376.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_sink_x_0_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: samp_rate
+    comment: ''
+    fc: '0'
+    fftsize: '16384'
+    gui_hint: 2,0,5,9
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    plotconst: 'True'
+    plotfreq: 'False'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'False'
+    type: complex
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 384.0]
+    rotation: 0
+    state: enabled
+- name: save_button
+  id: variable_qtgui_msg_push_button
+  parameters:
+    comment: ''
+    gui_hint: 0,7,1,1
+    label: Save
+    msgName: pressed
+    relBackgroundColor: default
+    relFontColor: default
+    type: bool
+    value: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 712.0]
+    rotation: 0
+    state: true
+- name: snippet_0
+  id: snippet
+  parameters:
+    alias: ''
+    code: '#Bugfix 1: the control should never be written into self.var. Since this
+      makes it impossible to have two user inputs that are needed in the same calculation
+
+      #Bugfix 2: .getValue() calls .getFrequency() but doesn''t return it
+
+      self.freq = self._freq_msgdigctl_win.getFrequency()
+
+      self.sig_delta = self._sig_delta_msgdigctl_win.getFrequency()'
+    comment: ''
+    priority: '0'
+    section: main_after_init
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 972.0]
+    rotation: 0
+    state: true
+- name: snippet_1
+  id: snippet
+  parameters:
+    alias: ''
+    code: self.epy_block_0.setup(self._gain_win.d_widget.counter ,self._agc_mode_combo_box)
+    comment: ''
+    priority: '0'
+    section: main_after_init
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 972.0]
+    rotation: 0
+    state: true
+- name: soapy_plutosdr_source_0
+  id: soapy_plutosdr_source
+  parameters:
+    affinity: ''
+    agc: 'False'
+    alias: ''
+    bandwidth: '0'
+    center_freq: freq
+    comment: ''
+    dev_args: ''
+    gain: gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fc32
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [72, 284.0]
+    rotation: 0
+    state: true
+
+connections:
+- [analog_fm_demod_cf_0, '0', audio_sink_0, '0']
+- [analog_fm_demod_cf_0, '0', blocks_null_sink_1, '0']
+- [blocks_complex_to_mag_0, '0', epy_block_2, '0']
+- [blocks_keep_one_in_n_0, '0', analog_fm_demod_cf_0, '0']
+- [blocks_rotator_cc_0, '0', blocks_selector_0, '0']
+- [blocks_rotator_cc_0, '0', filter_fft_low_pass_filter_0, '0']
+- [blocks_selector_0, '0', qtgui_sink_x_0_0, '0']
+- [blocks_selector_0, '1', blocks_null_sink_0, '0']
+- [epy_block_0, messageOutput, epy_block_3, saveButton]
+- [epy_block_1, '0', epy_block_0, '0']
+- [epy_block_1, '0', qtgui_number_sink_0, '0']
+- [epy_block_2, '0', epy_block_3, '0']
+- [epy_block_2, '0', qtgui_number_sink_0_0_0, '0']
+- [epy_block_2, '1', epy_block_3, '1']
+- [epy_block_2, '1', qtgui_number_sink_0_0_0_0, '0']
+- [filter_fft_low_pass_filter_0, '0', blocks_complex_to_mag_0, '0']
+- [filter_fft_low_pass_filter_0, '0', blocks_keep_one_in_n_0, '0']
+- [filter_fft_low_pass_filter_0, '0', blocks_selector_0, '1']
+- [save_button, pressed, epy_block_3, saveButton]
+- [soapy_plutosdr_source_0, '0', blocks_rotator_cc_0, '0']
+- [soapy_plutosdr_source_0, '0', epy_block_1, '0']
+
+metadata:
+  file_format: 1
