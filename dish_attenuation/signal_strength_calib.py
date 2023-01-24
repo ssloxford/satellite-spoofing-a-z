@@ -99,6 +99,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sig_delta = sig_delta = 213828
+        self.show_lpf = show_lpf = 1
         self.samp_rate = samp_rate = 3000000
         self.gain = gain = 0
         self.freq = freq = 143800000
@@ -112,16 +113,43 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self._sig_delta_msgdigctl_win.setReadOnly(False)
         self.sig_delta = self._sig_delta_msgdigctl_win
 
-        self.top_layout.addWidget(self._sig_delta_msgdigctl_win)
+        self.top_grid_layout.addWidget(self._sig_delta_msgdigctl_win, 0, 3, 1, 3)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(3, 6):
+            self.top_grid_layout.setColumnStretch(c, 1)
+        if int == bool:
+        	self._show_lpf_choices = {'Pressed': bool(1), 'Released': bool(0)}
+        elif int == str:
+        	self._show_lpf_choices = {'Pressed': "1".replace("'",""), 'Released': "0".replace("'","")}
+        else:
+        	self._show_lpf_choices = {'Pressed': 1, 'Released': 0}
+
+        _show_lpf_toggle_button = qtgui.GrToggleSwitch(self.set_show_lpf, 'Show LPF', self._show_lpf_choices, True,"green","gray",4, 50, 1, 1,self,"'value'".replace("'",""))
+        self.show_lpf = _show_lpf_toggle_button
+
+        self.top_grid_layout.addWidget(_show_lpf_toggle_button, 0, 8, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(8, 9):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self._gain_range = Range(0, 73, 1, 0, 200)
         self._gain_win = RangeWidget(self._gain_range, self.set_gain, 'Input gain', "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._gain_win)
+        self.top_grid_layout.addWidget(self._gain_win, 1, 4, 1, 5)
+        for r in range(1, 2):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(4, 9):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self._freq_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Center frequency', min_freq_hz = 80e6, max_freq_hz=2e9, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_freq,outputmsgname="'freq'".replace("'",""))
         self._freq_msgdigctl_win.setValue(143800000)
         self._freq_msgdigctl_win.setReadOnly(False)
         self.freq = self._freq_msgdigctl_win
 
-        self.top_layout.addWidget(self._freq_msgdigctl_win)
+        self.top_grid_layout.addWidget(self._freq_msgdigctl_win, 0, 0, 1, 3)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 3):
+            self.top_grid_layout.setColumnStretch(c, 1)
         # Create the options list
         self._agc_mode_options = [0, 1, 2]
         # Create the labels list
@@ -137,7 +165,11 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self._agc_mode_combo_box.currentIndexChanged.connect(
             lambda i: self.set_agc_mode(self._agc_mode_options[i]))
         # Create the radio buttons
-        self.top_layout.addWidget(self._agc_mode_tool_bar)
+        self.top_grid_layout.addWidget(self._agc_mode_tool_bar, 0, 6, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(6, 7):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.soapy_plutosdr_source_0 = None
         dev = 'driver=plutosdr'
         stream_args = ''
@@ -151,10 +183,14 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.soapy_plutosdr_source_0.set_gain_mode(0, False)
         self.soapy_plutosdr_source_0.set_frequency(0, freq)
         self.soapy_plutosdr_source_0.set_gain(0, min(max(gain, 0.0), 73.0))
-        self.save_button = _save_button_toggle_button = qtgui.MsgPushButton('Save', 'pressed',True,"blue","default")
+        self.save_button = _save_button_toggle_button = qtgui.MsgPushButton('Save', 'pressed',True,"default","default")
         self.save_button = _save_button_toggle_button
 
-        self.top_layout.addWidget(_save_button_toggle_button)
+        self.top_grid_layout.addWidget(_save_button_toggle_button, 0, 7, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(7, 8):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_sink_x_0_0 = qtgui.sink_c(
             4096, #fftsize
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -172,7 +208,11 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
 
         self.qtgui_sink_x_0_0.enable_rf_freq(True)
 
-        self.top_layout.addWidget(self._qtgui_sink_x_0_0_win)
+        self.top_grid_layout.addWidget(self._qtgui_sink_x_0_0_win, 2, 0, 5, 9)
+        for r in range(2, 7):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 9):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_number_sink_0_0_0 = qtgui.number_sink(
             gr.sizeof_float,
             0,
@@ -205,7 +245,11 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
 
         self.qtgui_number_sink_0_0_0.enable_autoscale(False)
         self._qtgui_number_sink_0_0_0_win = sip.wrapinstance(self.qtgui_number_sink_0_0_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_number_sink_0_0_0_win)
+        self.top_grid_layout.addWidget(self._qtgui_number_sink_0_0_0_win, 1, 2, 1, 2)
+        for r in range(1, 2):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(2, 4):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_number_sink_0 = qtgui.number_sink(
             gr.sizeof_float,
             0,
@@ -238,13 +282,20 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
 
         self.qtgui_number_sink_0.enable_autoscale(False)
         self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_number_sink_0_win)
+        self.top_grid_layout.addWidget(self._qtgui_number_sink_0_win, 1, 0, 1, 2)
+        for r in range(1, 2):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.filter_fft_low_pass_filter_0 = filter.fft_filter_ccc(1, firdes.low_pass(1, samp_rate, 5000, 200, window.WIN_HAMMING, 6.76), 1)
         self.epy_block_3 = epy_block_3.blk(filename="test.csv", columns=[gain])
         self.epy_block_2 = epy_block_2.blk(batch_length=65536)
         self.epy_block_1 = epy_block_1.blk(batch_length=65536)
         self.epy_block_0 = epy_block_0.blk(strength=0.01, gain=gain, agc_mode=agc_mode, sweep_delay=100)
+        self.blocks_selector_0 = blocks.selector(gr.sizeof_gr_complex*1,show_lpf,0)
+        self.blocks_selector_0.set_enabled(True)
         self.blocks_rotator_cc_0 = blocks.rotator_cc((-sig_delta)*6.28318530718 /samp_rate, False)
+        self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         self.blocks_keep_one_in_n_0 = blocks.keep_one_in_n(gr.sizeof_gr_complex*1, 10)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
         self.audio_sink_0 = audio.sink(20000, '', True)
@@ -268,14 +319,17 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.connect((self.analog_fm_demod_cf_0, 0), (self.audio_sink_0, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.epy_block_2, 0))
         self.connect((self.blocks_keep_one_in_n_0, 0), (self.analog_fm_demod_cf_0, 0))
+        self.connect((self.blocks_rotator_cc_0, 0), (self.blocks_selector_0, 0))
         self.connect((self.blocks_rotator_cc_0, 0), (self.filter_fft_low_pass_filter_0, 0))
+        self.connect((self.blocks_selector_0, 1), (self.blocks_null_sink_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.qtgui_sink_x_0_0, 0))
         self.connect((self.epy_block_1, 0), (self.epy_block_0, 0))
         self.connect((self.epy_block_1, 0), (self.qtgui_number_sink_0, 0))
         self.connect((self.epy_block_2, 0), (self.epy_block_3, 0))
         self.connect((self.epy_block_2, 0), (self.qtgui_number_sink_0_0_0, 0))
         self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_complex_to_mag_0, 0))
         self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_keep_one_in_n_0, 0))
-        self.connect((self.filter_fft_low_pass_filter_0, 0), (self.qtgui_sink_x_0_0, 0))
+        self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_selector_0, 1))
         self.connect((self.soapy_plutosdr_source_0, 0), (self.blocks_rotator_cc_0, 0))
         self.connect((self.soapy_plutosdr_source_0, 0), (self.epy_block_1, 0))
 
@@ -295,6 +349,13 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.sig_delta = sig_delta
         self.blocks_rotator_cc_0.set_phase_inc((-self.sig_delta)*6.28318530718 /self.samp_rate)
         self.qtgui_sink_x_0_0.set_frequency_range(self.freq+self.sig_delta, self.samp_rate)
+
+    def get_show_lpf(self):
+        return self.show_lpf
+
+    def set_show_lpf(self, show_lpf):
+        self.show_lpf = show_lpf
+        self.blocks_selector_0.set_input_index(self.show_lpf)
 
     def get_samp_rate(self):
         return self.samp_rate
