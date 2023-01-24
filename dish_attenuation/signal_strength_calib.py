@@ -22,9 +22,12 @@ if __name__ == '__main__':
             print("Warning: failed to XInitThreads()")
 
 from PyQt5 import Qt
+from PyQt5.QtCore import QObject, pyqtSlot
 from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
+from gnuradio import analog
+from gnuradio import audio
 from gnuradio import blocks
 from gnuradio import filter
 from gnuradio import gr
@@ -37,6 +40,10 @@ from gnuradio import eng_notation
 from gnuradio import soapy
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
+import signal_strength_calib_epy_block_0 as epy_block_0  # embedded python block
+import signal_strength_calib_epy_block_1 as epy_block_1  # embedded python block
+import signal_strength_calib_epy_block_2 as epy_block_2  # embedded python block
+import signal_strength_calib_epy_block_3 as epy_block_3  # embedded python block
 
 
 def snipfcn_snippet_0(self):
@@ -45,9 +52,13 @@ def snipfcn_snippet_0(self):
     self.freq = self._freq_msgdigctl_win.getFrequency()
     self.sig_delta = self._sig_delta_msgdigctl_win.getFrequency()
 
+def snipfcn_snippet_1(self):
+    self.epy_block_0.setup(self._gain_win.d_widget.counter ,self._agc_mode_combo_box)
+
 
 def snippets_main_after_init(tb):
     snipfcn_snippet_0(tb)
+    snipfcn_snippet_1(tb)
 
 from gnuradio import qtgui
 
@@ -91,11 +102,12 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 3000000
         self.gain = gain = 0
         self.freq = freq = 143800000
+        self.agc_mode = agc_mode = 0
 
         ##################################################
         # Blocks
         ##################################################
-        self._sig_delta_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Signal offset', min_freq_hz = 100000, max_freq_hz=500000, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_sig_delta,outputmsgname="'sig_delta'".replace("'",""))
+        self._sig_delta_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Signal offset', min_freq_hz = 100000, max_freq_hz=1000000, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_sig_delta,outputmsgname="'sig_delta'".replace("'",""))
         self._sig_delta_msgdigctl_win.setValue(213828)
         self._sig_delta_msgdigctl_win.setReadOnly(False)
         self.sig_delta = self._sig_delta_msgdigctl_win
@@ -104,12 +116,28 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self._gain_range = Range(0, 73, 1, 0, 200)
         self._gain_win = RangeWidget(self._gain_range, self.set_gain, 'Input gain', "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._gain_win)
-        self._freq_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Center frequency', min_freq_hz = 100e6, max_freq_hz=1e9, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_freq,outputmsgname="'freq'".replace("'",""))
+        self._freq_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Center frequency', min_freq_hz = 80e6, max_freq_hz=2e9, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_freq,outputmsgname="'freq'".replace("'",""))
         self._freq_msgdigctl_win.setValue(143800000)
         self._freq_msgdigctl_win.setReadOnly(False)
         self.freq = self._freq_msgdigctl_win
 
         self.top_layout.addWidget(self._freq_msgdigctl_win)
+        # Create the options list
+        self._agc_mode_options = [0, 1, 2]
+        # Create the labels list
+        self._agc_mode_labels = ['Off', 'Sweep', 'AGC']
+        # Create the combo box
+        self._agc_mode_tool_bar = Qt.QToolBar(self)
+        self._agc_mode_tool_bar.addWidget(Qt.QLabel("agc_mode: "))
+        self._agc_mode_combo_box = Qt.QComboBox()
+        self._agc_mode_tool_bar.addWidget(self._agc_mode_combo_box)
+        for _label in self._agc_mode_labels: self._agc_mode_combo_box.addItem(_label)
+        self._agc_mode_callback = lambda i: Qt.QMetaObject.invokeMethod(self._agc_mode_combo_box, "setCurrentIndex", Qt.Q_ARG("int", self._agc_mode_options.index(i)))
+        self._agc_mode_callback(self.agc_mode)
+        self._agc_mode_combo_box.currentIndexChanged.connect(
+            lambda i: self.set_agc_mode(self._agc_mode_options[i]))
+        # Create the radio buttons
+        self.top_layout.addWidget(self._agc_mode_tool_bar)
         self.soapy_plutosdr_source_0 = None
         dev = 'driver=plutosdr'
         stream_args = ''
@@ -123,6 +151,10 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.soapy_plutosdr_source_0.set_gain_mode(0, False)
         self.soapy_plutosdr_source_0.set_frequency(0, freq)
         self.soapy_plutosdr_source_0.set_gain(0, min(max(gain, 0.0), 73.0))
+        self.save_button = _save_button_toggle_button = qtgui.MsgPushButton('Save', 'pressed',True,"blue","default")
+        self.save_button = _save_button_toggle_button
+
+        self.top_layout.addWidget(_save_button_toggle_button)
         self.qtgui_sink_x_0_0 = qtgui.sink_c(
             4096, #fftsize
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -208,37 +240,44 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.pyqwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_number_sink_0_win)
         self.filter_fft_low_pass_filter_0 = filter.fft_filter_ccc(1, firdes.low_pass(1, samp_rate, 5000, 200, window.WIN_HAMMING, 6.76), 1)
+        self.epy_block_3 = epy_block_3.blk(filename="test.csv", columns=[gain])
+        self.epy_block_2 = epy_block_2.blk(batch_length=65536)
+        self.epy_block_1 = epy_block_1.blk(batch_length=65536)
+        self.epy_block_0 = epy_block_0.blk(strength=0.01, gain=gain, agc_mode=agc_mode, sweep_delay=100)
         self.blocks_rotator_cc_0 = blocks.rotator_cc((-sig_delta)*6.28318530718 /samp_rate, False)
-        self.blocks_moving_average_xx_1_0 = blocks.moving_average_ff(1000, 1.58/1000, 4000, 1)
-        self.blocks_moving_average_xx_1 = blocks.moving_average_ff(1000, 1.58/1000, 4000, 1)
-        self.blocks_moving_average_xx_0_0_0 = blocks.moving_average_ff(262144, 1000/262144, 65536, 1)
-        self.blocks_max_xx_0 = blocks.max_ff(1, 1)
-        self.blocks_keep_one_in_n_0_0_0 = blocks.keep_one_in_n(gr.sizeof_float*1, 262144)
+        self.blocks_keep_one_in_n_0 = blocks.keep_one_in_n(gr.sizeof_gr_complex*1, 10)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
-        self.blocks_complex_to_float_0 = blocks.complex_to_float(1)
-        self.blocks_abs_xx_0_0 = blocks.abs_ff(1)
-        self.blocks_abs_xx_0 = blocks.abs_ff(1)
+        self.audio_sink_0 = audio.sink(20000, '', True)
+        self.analog_fm_demod_cf_0 = analog.fm_demod_cf(
+        	channel_rate=300000,
+        	audio_decim=15,
+        	deviation=5000,
+        	audio_pass=2000,
+        	audio_stop=5000,
+        	gain=1.0,
+        	tau=75e-6,
+        )
 
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_abs_xx_0, 0), (self.blocks_moving_average_xx_1, 0))
-        self.connect((self.blocks_abs_xx_0_0, 0), (self.blocks_moving_average_xx_1_0, 0))
-        self.connect((self.blocks_complex_to_float_0, 0), (self.blocks_abs_xx_0, 0))
-        self.connect((self.blocks_complex_to_float_0, 1), (self.blocks_abs_xx_0_0, 0))
-        self.connect((self.blocks_complex_to_mag_0, 0), (self.blocks_moving_average_xx_0_0_0, 0))
-        self.connect((self.blocks_keep_one_in_n_0_0_0, 0), (self.qtgui_number_sink_0_0_0, 0))
-        self.connect((self.blocks_max_xx_0, 0), (self.qtgui_number_sink_0, 0))
-        self.connect((self.blocks_moving_average_xx_0_0_0, 0), (self.blocks_keep_one_in_n_0_0_0, 0))
-        self.connect((self.blocks_moving_average_xx_1, 0), (self.blocks_max_xx_0, 0))
-        self.connect((self.blocks_moving_average_xx_1_0, 0), (self.blocks_max_xx_0, 1))
+        self.msg_connect((self.epy_block_0, 'messageOutput'), (self.epy_block_3, 'saveButton'))
+        self.msg_connect((self.save_button, 'pressed'), (self.epy_block_3, 'saveButton'))
+        self.connect((self.analog_fm_demod_cf_0, 0), (self.audio_sink_0, 0))
+        self.connect((self.blocks_complex_to_mag_0, 0), (self.epy_block_2, 0))
+        self.connect((self.blocks_keep_one_in_n_0, 0), (self.analog_fm_demod_cf_0, 0))
         self.connect((self.blocks_rotator_cc_0, 0), (self.filter_fft_low_pass_filter_0, 0))
+        self.connect((self.epy_block_1, 0), (self.epy_block_0, 0))
+        self.connect((self.epy_block_1, 0), (self.qtgui_number_sink_0, 0))
+        self.connect((self.epy_block_2, 0), (self.epy_block_3, 0))
+        self.connect((self.epy_block_2, 0), (self.qtgui_number_sink_0_0_0, 0))
         self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_complex_to_mag_0, 0))
+        self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_keep_one_in_n_0, 0))
         self.connect((self.filter_fft_low_pass_filter_0, 0), (self.qtgui_sink_x_0_0, 0))
-        self.connect((self.soapy_plutosdr_source_0, 0), (self.blocks_complex_to_float_0, 0))
         self.connect((self.soapy_plutosdr_source_0, 0), (self.blocks_rotator_cc_0, 0))
+        self.connect((self.soapy_plutosdr_source_0, 0), (self.epy_block_1, 0))
 
 
     def closeEvent(self, event):
@@ -272,6 +311,8 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
 
     def set_gain(self, gain):
         self.gain = gain
+        self.epy_block_0.gain = self.gain
+        self.epy_block_3.columns = [self.gain]
         self.soapy_plutosdr_source_0.set_gain(0, min(max(self.gain, 0.0), 73.0))
 
     def get_freq(self):
@@ -281,6 +322,14 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.freq = freq
         self.qtgui_sink_x_0_0.set_frequency_range(self.freq+self.sig_delta, self.samp_rate)
         self.soapy_plutosdr_source_0.set_frequency(0, self.freq)
+
+    def get_agc_mode(self):
+        return self.agc_mode
+
+    def set_agc_mode(self, agc_mode):
+        self.agc_mode = agc_mode
+        self._agc_mode_callback(self.agc_mode)
+        self.epy_block_0.agc_mode = self.agc_mode
 
 
 
