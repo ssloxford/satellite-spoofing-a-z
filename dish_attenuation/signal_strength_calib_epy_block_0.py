@@ -13,7 +13,7 @@ from gnuradio import qtgui
 
 
 class blk(gr.sync_block):
-    def __init__(self, strength = 0.01, gain = 0, agc_mode = 0, sweep_delay = 0):
+    def __init__(self, strength = 0.01, gain = 0, agc_mode = 0, sweep_delay = 0, sweep_step = 1):
         gr.sync_block.__init__(self,
             name="AGC",
             in_sig=[np.float32],
@@ -29,7 +29,9 @@ class blk(gr.sync_block):
         self.portName = 'messageOutput'
         self.message_port_register_out(pmt.intern(self.portName))
 
+        self.sweep_step = sweep_step
         self.sweep_delay = sweep_delay
+        self.stage = 0
         self.counter = 0
 
 
@@ -58,14 +60,20 @@ class blk(gr.sync_block):
                 self.gain_block.setValue(0)
             else:
                 self.counter += len(input_items)
-                if (self.counter > self.sweep_delay):
+                if (self.counter > self.sweep_delay and self.stage == 0):
                     PMT_msg = pmt.from_bool(True)
                     self.message_port_pub(pmt.intern(self.portName), PMT_msg)
-                    self.counter = 0
+                    self.counter = self.sweep_delay
+                    self.stage = 1
 
-                    self.gain += 1
+                if (self.counter > self.sweep_delay*1.5 and self.stage == 1):
+                    self.counter = 0
+                    self.stage = 0
+
+                    self.gain += self.sweep_step
                     self.gain_block.setValue(int(self.gain))
         else:
             self.counter = 0
+            self.stage = 0
 
         return len(input_items[0])

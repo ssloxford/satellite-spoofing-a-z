@@ -59,7 +59,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 740.0]
+    coordinate: [536, 756.0]
     rotation: 0
     state: true
 - name: exp_angle
@@ -101,7 +101,7 @@ blocks:
     comment: ''
     gui_hint: 0,0,1,2
     lbl: Center frequency
-    maxFreqHz: 2e9
+    maxFreqHz: 3.5e9
     maxoutbuf: '0'
     minFreqHz: 80e6
     minoutbuf: '0'
@@ -109,7 +109,7 @@ blocks:
     readOnly: 'False'
     relBackgroundColor: black
     relFontColor: white
-    value: '143800000'
+    value: '436600000'
   states:
     bus_sink: false
     bus_source: false
@@ -338,17 +338,18 @@ blocks:
       \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
       from gnuradio import gr\nimport pmt\nfrom gnuradio import qtgui\n\n\nclass blk(gr.sync_block):\n\
       \    def __init__(self, strength = 0.01, gain = 0, agc_mode = 0, sweep_delay\
-      \ = 0):\n        gr.sync_block.__init__(self,\n            name=\"AGC\",\n \
-      \           in_sig=[np.float32],\n            out_sig=None)\n\n        self.agc_mode\
-      \ = agc_mode\n        self.strength = strength\n\n        self.gain = gain\n\
-      \        self.gain_block = None\n        self.control = None\n\n        self.portName\
-      \ = 'messageOutput'\n        self.message_port_register_out(pmt.intern(self.portName))\n\
-      \n        self.sweep_delay = sweep_delay\n        self.counter = 0\n\n\n   \
-      \ def setup(self, gain_block, control_block):\n        self.gain_block = gain_block\n\
-      \        self.gain = self.gain_block.value()\n        self.control = control_block\n\
-      \n    def work(self, input_items, output_items):\n        for i in range(len(input_items)):\n\
-      \            #Decrease gain\n            if(self.agc_mode == 2):\n         \
-      \       if(input_items[0][i] > 0.8):\n                    self.gain -= self.strength\n\
+      \ = 0, sweep_step = 1):\n        gr.sync_block.__init__(self,\n            name=\"\
+      AGC\",\n            in_sig=[np.float32],\n            out_sig=None)\n\n    \
+      \    self.agc_mode = agc_mode\n        self.strength = strength\n\n        self.gain\
+      \ = gain\n        self.gain_block = None\n        self.control = None\n\n  \
+      \      self.portName = 'messageOutput'\n        self.message_port_register_out(pmt.intern(self.portName))\n\
+      \n        self.sweep_step = sweep_step\n        self.sweep_delay = sweep_delay\n\
+      \        self.stage = 0\n        self.counter = 0\n\n\n    def setup(self, gain_block,\
+      \ control_block):\n        self.gain_block = gain_block\n        self.gain =\
+      \ self.gain_block.value()\n        self.control = control_block\n\n    def work(self,\
+      \ input_items, output_items):\n        for i in range(len(input_items)):\n \
+      \           #Decrease gain\n            if(self.agc_mode == 2):\n          \
+      \      if(input_items[0][i] > 0.8):\n                    self.gain -= self.strength\n\
       \                if(input_items[0][i] > 0.7):\n                    self.gain\
       \ -= self.strength\n                if(input_items[0][i] < 0.3):\n         \
       \           self.gain += self.strength\n                if(input_items[0][i]\
@@ -356,11 +357,15 @@ blocks:
       \n        if(self.agc_mode == 1):\n            if(input_items[0][-1] > 0.9 or\
       \ self.gain > 70):\n                self.control.setCurrentIndex(0)\n      \
       \          self.gain_block.setValue(0)\n            else:\n                self.counter\
-      \ += len(input_items)\n                if (self.counter > self.sweep_delay):\n\
-      \                    PMT_msg = pmt.from_bool(True)\n                    self.message_port_pub(pmt.intern(self.portName),\
-      \ PMT_msg)\n                    self.counter = 0\n\n                    self.gain\
-      \ += 1\n                    self.gain_block.setValue(int(self.gain))\n     \
-      \   else:\n            self.counter = 0\n\n        return len(input_items[0])"
+      \ += len(input_items)\n                if (self.counter > self.sweep_delay and\
+      \ self.stage == 0):\n                    PMT_msg = pmt.from_bool(True)\n   \
+      \                 self.message_port_pub(pmt.intern(self.portName), PMT_msg)\n\
+      \                    self.counter = self.sweep_delay\n                    self.stage\
+      \ = 1\n\n                if (self.counter > self.sweep_delay*1.5 and self.stage\
+      \ == 1):\n                    self.counter = 0\n                    self.stage\
+      \ = 0\n\n                    self.gain += self.sweep_step\n                \
+      \    self.gain_block.setValue(int(self.gain))\n        else:\n            self.counter\
+      \ = 0\n            self.stage = 0\n\n        return len(input_items[0])"
     affinity: ''
     agc_mode: agc_mode
     alias: ''
@@ -370,10 +375,11 @@ blocks:
     minoutbuf: '0'
     strength: '0.01'
     sweep_delay: '100'
+    sweep_step: '1'
   states:
     _io_cache: ('AGC', 'blk', [('strength', '0.01'), ('gain', '0'), ('agc_mode', '0'),
-      ('sweep_delay', '0')], [('0', 'float', 1)], [('messageOutput', 'message', 1)],
-      '', ['agc_mode', 'gain', 'strength', 'sweep_delay'])
+      ('sweep_delay', '0'), ('sweep_step', '1')], [('0', 'float', 1)], [('messageOutput',
+      'message', 1)], '', ['agc_mode', 'gain', 'strength', 'sweep_delay', 'sweep_step'])
     bus_sink: false
     bus_source: false
     bus_structure: null
@@ -647,7 +653,7 @@ blocks:
     bw: samp_rate
     comment: ''
     fc: '0'
-    fftsize: '4096'
+    fftsize: '16384'
     gui_hint: 2,0,5,9
     maxoutbuf: '0'
     minoutbuf: '0'

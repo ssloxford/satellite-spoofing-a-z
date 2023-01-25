@@ -102,7 +102,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.show_lpf = show_lpf = 1
         self.samp_rate = samp_rate = 3000000
         self.gain = gain = 0
-        self.freq = freq = 143800000
+        self.freq = freq = 436600000
         self.exp_name = exp_name = '0'
         self.exp_angle = exp_angle = 0
         self.agc_mode = agc_mode = 0
@@ -142,8 +142,8 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(4, 9):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self._freq_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Center frequency', min_freq_hz = 80e6, max_freq_hz=2e9, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_freq,outputmsgname="'freq'".replace("'",""))
-        self._freq_msgdigctl_win.setValue(143800000)
+        self._freq_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Center frequency', min_freq_hz = 80e6, max_freq_hz=3.5e9, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_freq,outputmsgname="'freq'".replace("'",""))
+        self._freq_msgdigctl_win.setValue(436600000)
         self._freq_msgdigctl_win.setReadOnly(False)
         self.freq = self._freq_msgdigctl_win
 
@@ -216,7 +216,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         for c in range(7, 8):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_sink_x_0_0 = qtgui.sink_c(
-            4096, #fftsize
+            16384, #fftsize
             window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
             samp_rate, #bw
@@ -315,7 +315,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.epy_block_3 = epy_block_3.blk(filename="test.csv", fmts=["%s","%d","%f","%f"], columns=[exp_name,freq+sig_delta,exp_angle,gain])
         self.epy_block_2 = epy_block_2.blk(batch_length=65536)
         self.epy_block_1 = epy_block_1.blk(batch_length=65536)
-        self.epy_block_0 = epy_block_0.blk(strength=0.01, gain=gain, agc_mode=agc_mode, sweep_delay=100)
+        self.epy_block_0 = epy_block_0.blk(strength=0.01, gain=gain, agc_mode=agc_mode, sweep_delay=100, sweep_step=1)
         self.blocks_selector_0 = blocks.selector(gr.sizeof_gr_complex*1,show_lpf,0)
         self.blocks_selector_0.set_enabled(True)
         self.blocks_rotator_cc_0 = blocks.rotator_cc((-sig_delta)*6.28318530718 /samp_rate, False)
