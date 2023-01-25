@@ -15,7 +15,7 @@ import time
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """Embedded Python Block example - a simple multiply const"""
 
-    def __init__(self, filename="", columns=[]):  # only default arguments here
+    def __init__(self, filename="", fmts=[], columns=[]):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         self.vector_len = 1
         gr.sync_block.__init__(
@@ -30,6 +30,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.message_port_register_in(pmt.intern(self.selectPortName))
         self.set_msg_handler(pmt.intern(self.selectPortName), self.handle_msg)
 
+        self.fmts = fmts
         self.columns = columns
         self.last_values = np.zeros(self.vector_len)
 
@@ -37,7 +38,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             self.file = open(filename, "a")
 
     def handle_msg(self, msg):
-        fmt = ("%s\t" + ("%f\t"*len(self.columns)) + ("%f\n"*self.vector_len))
+        fmt = ("%s\t" + ("\t".join(self.fmts) + ("\t" if 0<len(self.fmts) else 0)) + ("%f\n"*self.vector_len))
         self.file.write(fmt % (
             time.strftime("%Y-%m-%d %H:%M:%S"),
             *self.columns,

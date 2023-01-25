@@ -23,6 +23,7 @@ if __name__ == '__main__':
 
 from PyQt5 import Qt
 from PyQt5.QtCore import QObject, pyqtSlot
+from gnuradio import eng_notation
 from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
@@ -36,7 +37,6 @@ import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
-from gnuradio import eng_notation
 from gnuradio import soapy
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
@@ -103,6 +103,8 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 3000000
         self.gain = gain = 0
         self.freq = freq = 143800000
+        self.exp_name = exp_name = '0'
+        self.exp_angle = exp_angle = 0
         self.agc_mode = agc_mode = 0
 
         ##################################################
@@ -113,10 +115,10 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self._sig_delta_msgdigctl_win.setReadOnly(False)
         self.sig_delta = self._sig_delta_msgdigctl_win
 
-        self.top_grid_layout.addWidget(self._sig_delta_msgdigctl_win, 0, 3, 1, 3)
+        self.top_grid_layout.addWidget(self._sig_delta_msgdigctl_win, 0, 2, 1, 2)
         for r in range(0, 1):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(3, 6):
+        for c in range(2, 4):
             self.top_grid_layout.setColumnStretch(c, 1)
         if int == bool:
         	self._show_lpf_choices = {'Pressed': bool(1), 'Released': bool(0)}
@@ -145,10 +147,32 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self._freq_msgdigctl_win.setReadOnly(False)
         self.freq = self._freq_msgdigctl_win
 
-        self.top_grid_layout.addWidget(self._freq_msgdigctl_win, 0, 0, 1, 3)
+        self.top_grid_layout.addWidget(self._freq_msgdigctl_win, 0, 0, 1, 2)
         for r in range(0, 1):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 3):
+        for c in range(0, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
+        self._exp_name_tool_bar = Qt.QToolBar(self)
+        self._exp_name_tool_bar.addWidget(Qt.QLabel('Dish name' + ": "))
+        self._exp_name_line_edit = Qt.QLineEdit(str(self.exp_name))
+        self._exp_name_tool_bar.addWidget(self._exp_name_line_edit)
+        self._exp_name_line_edit.returnPressed.connect(
+            lambda: self.set_exp_name(str(str(self._exp_name_line_edit.text()))))
+        self.top_grid_layout.addWidget(self._exp_name_tool_bar, 0, 4, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(4, 5):
+            self.top_grid_layout.setColumnStretch(c, 1)
+        self._exp_angle_tool_bar = Qt.QToolBar(self)
+        self._exp_angle_tool_bar.addWidget(Qt.QLabel('Angle' + ": "))
+        self._exp_angle_line_edit = Qt.QLineEdit(str(self.exp_angle))
+        self._exp_angle_tool_bar.addWidget(self._exp_angle_line_edit)
+        self._exp_angle_line_edit.returnPressed.connect(
+            lambda: self.set_exp_angle(eng_notation.str_to_num(str(self._exp_angle_line_edit.text()))))
+        self.top_grid_layout.addWidget(self._exp_angle_tool_bar, 0, 5, 1, 1)
+        for r in range(0, 1):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(5, 6):
             self.top_grid_layout.setColumnStretch(c, 1)
         # Create the options list
         self._agc_mode_options = [0, 1, 2]
@@ -194,7 +218,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.qtgui_sink_x_0_0 = qtgui.sink_c(
             4096, #fftsize
             window.WIN_BLACKMAN_hARRIS, #wintype
-            freq+sig_delta, #fc
+            0, #fc
             samp_rate, #bw
             "", #name
             False, #plotfreq
@@ -206,7 +230,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.qtgui_sink_x_0_0.set_update_time(1.0/10)
         self._qtgui_sink_x_0_0_win = sip.wrapinstance(self.qtgui_sink_x_0_0.pyqwidget(), Qt.QWidget)
 
-        self.qtgui_sink_x_0_0.enable_rf_freq(True)
+        self.qtgui_sink_x_0_0.enable_rf_freq(False)
 
         self.top_grid_layout.addWidget(self._qtgui_sink_x_0_0_win, 2, 0, 5, 9)
         for r in range(2, 7):
@@ -234,7 +258,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
 
         for i in range(1):
             self.qtgui_number_sink_0_0_0.set_min(i, 0)
-            self.qtgui_number_sink_0_0_0.set_max(i, 1000)
+            self.qtgui_number_sink_0_0_0.set_max(i, 1)
             self.qtgui_number_sink_0_0_0.set_color(i, colors[i][0], colors[i][1])
             if len(labels[i]) == 0:
                 self.qtgui_number_sink_0_0_0.set_label(i, "Data {0}".format(i))
@@ -288,7 +312,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         for c in range(0, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.filter_fft_low_pass_filter_0 = filter.fft_filter_ccc(1, firdes.low_pass(1, samp_rate, 5000, 200, window.WIN_HAMMING, 6.76), 1)
-        self.epy_block_3 = epy_block_3.blk(filename="test.csv", columns=[gain])
+        self.epy_block_3 = epy_block_3.blk(filename="test.csv", fmts=["%s","%d","%f","%f"], columns=[exp_name,freq+sig_delta,exp_angle,gain])
         self.epy_block_2 = epy_block_2.blk(batch_length=65536)
         self.epy_block_1 = epy_block_1.blk(batch_length=65536)
         self.epy_block_0 = epy_block_0.blk(strength=0.01, gain=gain, agc_mode=agc_mode, sweep_delay=100)
@@ -348,7 +372,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
     def set_sig_delta(self, sig_delta):
         self.sig_delta = sig_delta
         self.blocks_rotator_cc_0.set_phase_inc((-self.sig_delta)*6.28318530718 /self.samp_rate)
-        self.qtgui_sink_x_0_0.set_frequency_range(self.freq+self.sig_delta, self.samp_rate)
+        self.epy_block_3.columns = [self.exp_name,self.freq+self.sig_delta,self.exp_angle,self.gain]
 
     def get_show_lpf(self):
         return self.show_lpf
@@ -364,7 +388,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.blocks_rotator_cc_0.set_phase_inc((-self.sig_delta)*6.28318530718 /self.samp_rate)
         self.filter_fft_low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 5000, 200, window.WIN_HAMMING, 6.76))
-        self.qtgui_sink_x_0_0.set_frequency_range(self.freq+self.sig_delta, self.samp_rate)
+        self.qtgui_sink_x_0_0.set_frequency_range(0, self.samp_rate)
         self.soapy_plutosdr_source_0.set_sample_rate(0, self.samp_rate)
 
     def get_gain(self):
@@ -373,7 +397,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
     def set_gain(self, gain):
         self.gain = gain
         self.epy_block_0.gain = self.gain
-        self.epy_block_3.columns = [self.gain]
+        self.epy_block_3.columns = [self.exp_name,self.freq+self.sig_delta,self.exp_angle,self.gain]
         self.soapy_plutosdr_source_0.set_gain(0, min(max(self.gain, 0.0), 73.0))
 
     def get_freq(self):
@@ -381,8 +405,24 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
 
     def set_freq(self, freq):
         self.freq = freq
-        self.qtgui_sink_x_0_0.set_frequency_range(self.freq+self.sig_delta, self.samp_rate)
+        self.epy_block_3.columns = [self.exp_name,self.freq+self.sig_delta,self.exp_angle,self.gain]
         self.soapy_plutosdr_source_0.set_frequency(0, self.freq)
+
+    def get_exp_name(self):
+        return self.exp_name
+
+    def set_exp_name(self, exp_name):
+        self.exp_name = exp_name
+        Qt.QMetaObject.invokeMethod(self._exp_name_line_edit, "setText", Qt.Q_ARG("QString", str(self.exp_name)))
+        self.epy_block_3.columns = [self.exp_name,self.freq+self.sig_delta,self.exp_angle,self.gain]
+
+    def get_exp_angle(self):
+        return self.exp_angle
+
+    def set_exp_angle(self, exp_angle):
+        self.exp_angle = exp_angle
+        Qt.QMetaObject.invokeMethod(self._exp_angle_line_edit, "setText", Qt.Q_ARG("QString", eng_notation.num_to_str(self.exp_angle)))
+        self.epy_block_3.columns = [self.exp_name,self.freq+self.sig_delta,self.exp_angle,self.gain]
 
     def get_agc_mode(self):
         return self.agc_mode

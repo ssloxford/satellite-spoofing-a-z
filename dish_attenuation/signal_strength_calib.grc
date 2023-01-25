@@ -62,6 +62,36 @@ blocks:
     coordinate: [536, 740.0]
     rotation: 0
     state: true
+- name: exp_angle
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: 0,5,1,1
+    label: Angle
+    type: real
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1168, 12.0]
+    rotation: 0
+    state: true
+- name: exp_name
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: 0,4,1,1
+    label: Dish name
+    type: string
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1016, 12.0]
+    rotation: 0
+    state: true
 - name: freq
   id: qtgui_msgdigitalnumbercontrol
   parameters:
@@ -69,7 +99,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    gui_hint: 0,0,1,3
+    gui_hint: 0,0,1,2
     lbl: Center frequency
     maxFreqHz: 2e9
     maxoutbuf: '0'
@@ -151,7 +181,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    gui_hint: 0,3,1,3
+    gui_hint: 0,2,1,2
     lbl: Signal offset
     maxFreqHz: '1000000'
     maxoutbuf: '0'
@@ -422,34 +452,37 @@ blocks:
       from gnuradio import gr\nimport pmt\nimport time\n\n\nclass blk(gr.sync_block):\
       \  # other base classes are basic_block, decim_block, interp_block\n    \"\"\
       \"Embedded Python Block example - a simple multiply const\"\"\"\n\n    def __init__(self,\
-      \ filename=\"\", columns=[]):  # only default arguments here\n        \"\"\"\
-      arguments to this function show up as parameters in GRC\"\"\"\n        self.vector_len\
-      \ = 1\n        gr.sync_block.__init__(\n            self,\n            name='Value\
-      \ saver',   # will show up in GRC\n            in_sig=[np.float32] * self.vector_len,\n\
-      \            out_sig=None\n        )\n        # if an attribute with the same\
-      \ name as a parameter is found,\n        # a callback is registered (properties\
-      \ work, too).\n        self.selectPortName = 'saveButton'\n        self.message_port_register_in(pmt.intern(self.selectPortName))\n\
-      \        self.set_msg_handler(pmt.intern(self.selectPortName), self.handle_msg)\n\
-      \n        self.columns = columns\n        self.last_values = np.zeros(self.vector_len)\n\
-      \n        if(filename != \"\"):\n            self.file = open(filename, \"a\"\
-      )\n\n    def handle_msg(self, msg):\n        fmt = (\"%s\\t\" + (\"%f\\t\"*len(self.columns))\
-      \ + (\"%f\\n\"*self.vector_len))\n        self.file.write(fmt % (\n        \
-      \    time.strftime(\"%Y-%m-%d %H:%M:%S\"),\n            *self.columns,\n   \
-      \         *self.last_values)\n        )\n\n    def stop(self):\n        self.file.close()\n\
+      \ filename=\"\", fmts=[], columns=[]):  # only default arguments here\n    \
+      \    \"\"\"arguments to this function show up as parameters in GRC\"\"\"\n \
+      \       self.vector_len = 1\n        gr.sync_block.__init__(\n            self,\n\
+      \            name='Value saver',   # will show up in GRC\n            in_sig=[np.float32]\
+      \ * self.vector_len,\n            out_sig=None\n        )\n        # if an attribute\
+      \ with the same name as a parameter is found,\n        # a callback is registered\
+      \ (properties work, too).\n        self.selectPortName = 'saveButton'\n    \
+      \    self.message_port_register_in(pmt.intern(self.selectPortName))\n      \
+      \  self.set_msg_handler(pmt.intern(self.selectPortName), self.handle_msg)\n\n\
+      \        self.fmts = fmts\n        self.columns = columns\n        self.last_values\
+      \ = np.zeros(self.vector_len)\n\n        if(filename != \"\"):\n           \
+      \ self.file = open(filename, \"a\")\n\n    def handle_msg(self, msg):\n    \
+      \    fmt = (\"%s\\t\" + (\"\\t\".join(self.fmts) + (\"\\t\" if 0<len(self.fmts)\
+      \ else 0)) + (\"%f\\n\"*self.vector_len))\n        self.file.write(fmt % (\n\
+      \            time.strftime(\"%Y-%m-%d %H:%M:%S\"),\n            *self.columns,\n\
+      \            *self.last_values)\n        )\n\n    def stop(self):\n        self.file.close()\n\
       \n    def work(self, input_items, output_items):\n        \"\"\"example: multiply\
       \ with constant\"\"\"\n        self.last_values = [row[-1] for row in input_items]\n\
       \        return len(input_items[0])\n"
     affinity: ''
     alias: ''
-    columns: '[gain]'
+    columns: '[exp_name,freq+sig_delta,exp_angle,gain]'
     comment: ''
     filename: '"test.csv"'
+    fmts: '["%s","%d","%f","%f"]'
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('Value saver', 'blk', [('filename', "''"), ('columns', '[]')], [('0',
-      'float', 1), ('saveButton', 'message', 1)], [], 'Embedded Python Block example
-      - a simple multiply const', ['columns'])
+    _io_cache: ('Value saver', 'blk', [('filename', "''"), ('fmts', '[]'), ('columns',
+      '[]')], [('0', 'float', 1), ('saveButton', 'message', 1)], [], 'Embedded Python
+      Block example - a simple multiply const', ['columns', 'fmts'])
     bus_sink: false
     bus_source: false
     bus_structure: null
@@ -583,7 +616,7 @@ blocks:
     label7: ''
     label8: ''
     label9: ''
-    max: '1000'
+    max: '1'
     min: '0'
     name: '"Amplitude"'
     nconnections: '1'
@@ -613,7 +646,7 @@ blocks:
     alias: ''
     bw: samp_rate
     comment: ''
-    fc: freq+sig_delta
+    fc: '0'
     fftsize: '4096'
     gui_hint: 2,0,5,9
     maxoutbuf: '0'
@@ -625,7 +658,7 @@ blocks:
     plotwaterfall: 'True'
     rate: '10'
     showports: 'False'
-    showrf: 'True'
+    showrf: 'False'
     type: complex
     wintype: window.WIN_BLACKMAN_hARRIS
   states:
