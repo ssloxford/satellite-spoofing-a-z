@@ -237,6 +237,43 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 9):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.qtgui_number_sink_0_0_0_0 = qtgui.number_sink(
+            gr.sizeof_float,
+            0,
+            qtgui.NUM_GRAPH_HORIZ,
+            1,
+            None # parent
+        )
+        self.qtgui_number_sink_0_0_0_0.set_update_time(0.01)
+        self.qtgui_number_sink_0_0_0_0.set_title("RMS")
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        units = ['', '', '', '', '',
+            '', '', '', '', '']
+        colors = [("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"),
+            ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black"), ("black", "black")]
+        factor = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+
+        for i in range(1):
+            self.qtgui_number_sink_0_0_0_0.set_min(i, 0)
+            self.qtgui_number_sink_0_0_0_0.set_max(i, 1)
+            self.qtgui_number_sink_0_0_0_0.set_color(i, colors[i][0], colors[i][1])
+            if len(labels[i]) == 0:
+                self.qtgui_number_sink_0_0_0_0.set_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_number_sink_0_0_0_0.set_label(i, labels[i])
+            self.qtgui_number_sink_0_0_0_0.set_unit(i, units[i])
+            self.qtgui_number_sink_0_0_0_0.set_factor(i, factor[i])
+
+        self.qtgui_number_sink_0_0_0_0.enable_autoscale(False)
+        self._qtgui_number_sink_0_0_0_0_win = sip.wrapinstance(self.qtgui_number_sink_0_0_0_0.pyqwidget(), Qt.QWidget)
+        self.top_grid_layout.addWidget(self._qtgui_number_sink_0_0_0_0_win, 1, 3, 1, 1)
+        for r in range(1, 2):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(3, 4):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_number_sink_0_0_0 = qtgui.number_sink(
             gr.sizeof_float,
             0,
@@ -269,10 +306,10 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
 
         self.qtgui_number_sink_0_0_0.enable_autoscale(False)
         self._qtgui_number_sink_0_0_0_win = sip.wrapinstance(self.qtgui_number_sink_0_0_0.pyqwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_number_sink_0_0_0_win, 1, 2, 1, 2)
+        self.top_grid_layout.addWidget(self._qtgui_number_sink_0_0_0_win, 1, 2, 1, 1)
         for r in range(1, 2):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(2, 4):
+        for c in range(2, 3):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_number_sink_0 = qtgui.number_sink(
             gr.sizeof_float,
@@ -349,8 +386,10 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_selector_0, 0), (self.qtgui_sink_x_0_0, 0))
         self.connect((self.epy_block_1, 0), (self.epy_block_0, 0))
         self.connect((self.epy_block_1, 0), (self.qtgui_number_sink_0, 0))
+        self.connect((self.epy_block_2, 1), (self.epy_block_3, 1))
         self.connect((self.epy_block_2, 0), (self.epy_block_3, 0))
         self.connect((self.epy_block_2, 0), (self.qtgui_number_sink_0_0_0, 0))
+        self.connect((self.epy_block_2, 1), (self.qtgui_number_sink_0_0_0_0, 0))
         self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_complex_to_mag_0, 0))
         self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_keep_one_in_n_0, 0))
         self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_selector_0, 1))

@@ -286,7 +286,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 512.0]
+    coordinate: [960, 504.0]
     rotation: 0
     state: true
 - name: blocks_rotator_cc_0
@@ -428,10 +428,13 @@ blocks:
       from gnuradio import gr\n\n\nclass blk(gr.decim_block):\n    def __init__(self,\
       \ batch_length = 65536):\n        gr.decim_block.__init__(self,\n          \
       \  name=\"Decimating Averages\",\n            in_sig=[np.float32],\n       \
-      \     out_sig=[np.float32],\n            decim = batch_length)\n\n        self.set_relative_rate(1.0/batch_length)\n\
-      \        self.batch_length = batch_length\n\n    def work(self, input_items,\
-      \ output_items):\n        n_out_items = len(input_items[0]) // self.batch_length\n\
-      \        for i in range(0, n_out_items):\n            output_items[0][i] = np.average(input_items[0][i*self.batch_length:(i+1)*self.batch_length])\n\
+      \     out_sig=[np.float32,np.float32],\n            decim = batch_length)\n\n\
+      \        self.set_relative_rate(1.0/batch_length)\n        self.batch_length\
+      \ = batch_length\n\n    def work(self, input_items, output_items):\n       \
+      \ n_out_items = len(input_items[0]) // self.batch_length\n        for i in range(0,\
+      \ n_out_items):\n            output_items[0][i] = np.average(input_items[0][i*self.batch_length:(i+1)*self.batch_length])\n\
+      \            output_items[1][i] = np.sqrt(\n                (np.average(np.square(input_items[0][i*self.batch_length:(i+1)*self.batch_length]))\
+      \ -\n                output_items[0][i]*output_items[0][i])\n            )\n\
       \            pass\n        return n_out_items"
     affinity: ''
     alias: ''
@@ -441,11 +444,11 @@ blocks:
     minoutbuf: '0'
   states:
     _io_cache: ('Decimating Averages', 'blk', [('batch_length', '65536')], [('0',
-      'float', 1)], [('0', 'float', 1)], '', ['batch_length'])
+      'float', 1)], [('0', 'float', 1), ('1', 'float', 1)], '', ['batch_length'])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 308.0]
+    coordinate: [960, 296.0]
     rotation: 0
     state: true
 - name: epy_block_3
@@ -460,7 +463,7 @@ blocks:
       \"Embedded Python Block example - a simple multiply const\"\"\"\n\n    def __init__(self,\
       \ filename=\"\", fmts=[], columns=[]):  # only default arguments here\n    \
       \    \"\"\"arguments to this function show up as parameters in GRC\"\"\"\n \
-      \       self.vector_len = 1\n        gr.sync_block.__init__(\n            self,\n\
+      \       self.vector_len = 2\n        gr.sync_block.__init__(\n            self,\n\
       \            name='Value saver',   # will show up in GRC\n            in_sig=[np.float32]\
       \ * self.vector_len,\n            out_sig=None\n        )\n        # if an attribute\
       \ with the same name as a parameter is found,\n        # a callback is registered\
@@ -471,8 +474,8 @@ blocks:
       \ = np.zeros(self.vector_len)\n\n        if(filename != \"\"):\n           \
       \ self.file = open(filename, \"a\")\n\n    def handle_msg(self, msg):\n    \
       \    fmt = (\"%s\\t\" + (\"\\t\".join(self.fmts) + (\"\\t\" if 0<len(self.fmts)\
-      \ else 0)) + (\"%f\\n\"*self.vector_len))\n        self.file.write(fmt % (\n\
-      \            time.strftime(\"%Y-%m-%d %H:%M:%S\"),\n            *self.columns,\n\
+      \ else 0)) + (\"%f\\t\"*self.vector_len) + \"\\n\")\n        self.file.write(fmt\
+      \ % (\n            time.strftime(\"%Y-%m-%d %H:%M:%S\"),\n            *self.columns,\n\
       \            *self.last_values)\n        )\n\n    def stop(self):\n        self.file.close()\n\
       \n    def work(self, input_items, output_items):\n        \"\"\"example: multiply\
       \ with constant\"\"\"\n        self.last_values = [row[-1] for row in input_items]\n\
@@ -487,12 +490,12 @@ blocks:
     minoutbuf: '0'
   states:
     _io_cache: ('Value saver', 'blk', [('filename', "''"), ('fmts', '[]'), ('columns',
-      '[]')], [('0', 'float', 1), ('saveButton', 'message', 1)], [], 'Embedded Python
-      Block example - a simple multiply const', ['columns', 'fmts'])
+      '[]')], [('0', 'float', 1), ('1', 'float', 1), ('saveButton', 'message', 1)],
+      [], 'Embedded Python Block example - a simple multiply const', ['columns', 'fmts'])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1240, 632.0]
+    coordinate: [1296, 520.0]
     rotation: 0
     state: true
 - name: filter_fft_low_pass_filter_0
@@ -611,7 +614,7 @@ blocks:
     factor8: '1'
     factor9: '1'
     graph_type: qtgui.NUM_GRAPH_HORIZ
-    gui_hint: 1,2,1,2
+    gui_hint: 1,2,1,1
     label1: ''
     label10: ''
     label2: ''
@@ -642,7 +645,70 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1224, 240.0]
+    coordinate: [1224, 248.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_number_sink_0_0_0_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: Amplitude of signal at given frequency
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: 1,3,1,1
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '0'
+    name: '"RMS"'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.01'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1224, 376.0]
     rotation: 0
     state: enabled
 - name: qtgui_sink_x_0_0
@@ -671,7 +737,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 384.0]
+    coordinate: [960, 384.0]
     rotation: 0
     state: enabled
 - name: save_button
@@ -765,6 +831,8 @@ connections:
 - [epy_block_1, '0', qtgui_number_sink_0, '0']
 - [epy_block_2, '0', epy_block_3, '0']
 - [epy_block_2, '0', qtgui_number_sink_0_0_0, '0']
+- [epy_block_2, '1', epy_block_3, '1']
+- [epy_block_2, '1', qtgui_number_sink_0_0_0_0, '0']
 - [filter_fft_low_pass_filter_0, '0', blocks_complex_to_mag_0, '0']
 - [filter_fft_low_pass_filter_0, '0', blocks_keep_one_in_n_0, '0']
 - [filter_fft_low_pass_filter_0, '0', blocks_selector_0, '1']

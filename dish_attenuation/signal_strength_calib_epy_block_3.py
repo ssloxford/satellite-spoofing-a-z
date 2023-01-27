@@ -17,7 +17,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
 
     def __init__(self, filename="", fmts=[], columns=[]):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
-        self.vector_len = 1
+        self.vector_len = 2
         gr.sync_block.__init__(
             self,
             name='Value saver',   # will show up in GRC
@@ -38,7 +38,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             self.file = open(filename, "a")
 
     def handle_msg(self, msg):
-        fmt = ("%s\t" + ("\t".join(self.fmts) + ("\t" if 0<len(self.fmts) else 0)) + ("%f\n"*self.vector_len))
+        fmt = ("%s\t" + ("\t".join(self.fmts) + ("\t" if 0<len(self.fmts) else 0)) + ("%f\t"*self.vector_len) + "\n")
         self.file.write(fmt % (
             time.strftime("%Y-%m-%d %H:%M:%S"),
             *self.columns,
