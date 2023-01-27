@@ -14,7 +14,7 @@ def fitPlaneLTSQ(XYZ):
 
 
 data = []
-with open("./test_1.csv", 'r') as file:
+with open("./test_2.csv", 'r') as file:
   csvreader = csv.reader(file, delimiter='\t')
   for row in csvreader:
     drow = [float(s) for s in row[3:6]]
@@ -23,13 +23,16 @@ with open("./test_1.csv", 'r') as file:
 
 data = np.array(data)
 
+data[:,0] = data[:,0]
 data[:,2] = np.log10(data[:,2])
 
 a,b,c = fitPlaneLTSQ(data)
 
 print(a, b, c)
 
+print("Rx(dBm) = " + str(1/a) + " * log10(amplitude) - "+ str(b/a) + " * gain - "+ str(c/a))
+
 plt.figure(figsize=(8,12))
-plt.scatter(data[:,0], data[:,1], c=data[:,2] - a*data[:,0] - b*data[:,1] - c)
+plt.scatter(data[:,0], data[:,1], c=data[:,0]-(data[:,2]/a - b/a*data[:,1] - c/a))
 plt.colorbar()
 plt.show()
