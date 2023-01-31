@@ -1,0 +1,88 @@
+# Space link stack:
+Space Data Link Protocol
+Sync & Channel Coding
+RF & Modulation
+
+https://ictactjournals.in/paper/IJCT_Vol_11_Iss_3_Paper_1_2203_2207.pdf
+
+https://hal.science/hal-03200449/document
+> in practice, the whole payload is considered as erroneous and therefore rejected (i.e. not forwarded to the network) if any constituting bit is badly decoded
+
+# Modulation schemes
+
+## Analog carrier
+### Analog data
+* AM - e.g. APT satellites
+* FM - e.g. voice radio relays
+* PM - e.g. voice relays in theory
+
+### Digital data
+* ASK
+* PSK
+* APSK
+* QAM
+* FSK
+
+## Digital carrier
+### Analog data
+* PAM
+* PWM
+* PPM
+
+### Digital data
+* PCM
+
+
+Any signal where the amplitude matters (locked on to some carrier) is harder to subtly inject just a few bits - whole packets probably have to be replaced
+This includes:
+
+* AM
+* APSK
+* QAM
+
+Differential schemes also have issues, as the attacker's data may be misinterpreted:
+* CPM
+
+## Commonly-used satellite ones
+https://blogs.keysight.com/blogs/tech/rfmw.entry.html/2020/08/24/modulation_schemesf-6MpZ.html
+* AM - e.g. APT
+* FM - e.g. voice
+
+Digital comms systems:
+* ASK
+* FSK
+* QAM
+
+* BPSK
+* QPSK
+* 8PSK
+
+These are most resistant to nonlinear amplification - constant envelope
+
+* PSK and its derivatives
+
+What do DVBS-2 satellites use?
+Iridium?
+
+Two challenges:
+* locking on to sync header
+    in the CADU the sync header won't be detected if it's at all different to normal I think, which could lead to subtle jamming
+* decoding data within checksum correctability
+
+
+Things to do:
+* validate that the NASA simulator isn't able to correct errors in the header
+* GNURadio simulation for different PSKs, getting out the BER as corresponds to different overshadow factors
+* different protocols, understand the max BER that can be handled through sync headers and hamming codes
+* build table of protocol/modulation scheme
+
+
+This is for whole-packet injection only
+
+We estimate that the attacker's signal feels like a "noisy channel" to them given the legit transmission
+
+BER - the probability that, for a given bit, that bit is flipped
+assume bit flips are independent events
+
+Modulation - map overshadow factor to BER
+Protocol - map BER to probability of packet decoding

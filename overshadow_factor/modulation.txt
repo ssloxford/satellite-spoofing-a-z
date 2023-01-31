@@ -1,0 +1,17 @@
+BPSK derivation:
+http://www.dsplog.com/2007/08/05/bit-error-probability-for-bpsk-modulation/
+
+M-PSK modulation:
+http://www.dsplog.com/2008/05/18/bit-error-rate-for-16psk-modulation-using-gray-mapping/
+
+16-PSK modulation:
+www.dsplog.com/2008/03/18/symbol-error-rate-for-16psk/
+
+QAM is from same website
+
+
+Tells us how to calculate the actual Shannon limit: (p5)
+https://ocw.mit.edu/courses/6-451-principles-of-digital-communication-ii-spring-2005/b286123989945cef13e5a9aa20e56a18_chap4.pdf
+
+Calculating end-to-end:
+https://www.amsat.org/amsat/articles/g3ruh/105.html

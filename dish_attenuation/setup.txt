@@ -1,3 +1,8 @@
 Required packages:
 gnuradio
 py3-matplotlib
+
+
+run avahi daemon:
+doas apk add avahi
+doas rc-service avahi-daemon start

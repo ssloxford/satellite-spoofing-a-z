@@ -1,0 +1,43 @@
+Allowed frequencies for the experiment:
+
+VHF (2m, 30-300MHz)
+144.0125MHz, 2700Hz bandwidth - all modes including satellite downlinks
+
+UHF (300-3000MHz)
+SO-50 downlink
+436.795 MHz (+/- 10 kHz Doppler shift)
+436.0000-438.0000MHz
+
+L (1-2GHz)
+1298.000-1299.000MHz, 20kHz bandwidth - all modes
+
+S (2-4GHz)
+2400-2450MHz Secondary. Users must accept interference from ISM users.
+2,390.000-2,400.000MHz, all modes
+
+
+# no go
+
+HF (20m, 3-30MHz)
+14.101-14.112 MHz, 2700Hz bandwidth - All Modes – Automatically Controlled Data Stations (unattended)
+14.106
+
+
+
+# to check band plan
+
+C (4-8GHz)
+5670-5680 Secondary
+
+X (8-12GHz)
+QO-100
+10491.000 - 10499.000 MHz Downlink
+
+Ku (11-20GHz)
+No amateur bands
+
+Ka (27-40GHz)
+47000-47200 (ish)
+
+EHF
+241-250GHz

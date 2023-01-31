@@ -1,0 +1,16 @@
+The frame error control field (2 octets) is the same between TM-SDLP, AOS-SDLP, and Unified Space Data Link Protocol (maybe not last one?)
+This is optional, and in addition to the checks provided at the Sync and Channel Coding side
+Unified space data link protocol contains a length field
+
+Checksum details:
+
+https://public.ccsds.org/Pubs/732x0b4.pdf
+p71, 4.1.6.2
+
+Computed by CRC
+
+
+
+Security notes:
+https://cwe.ccsds.org/sls/docs/SLS-SEA-DLS/Draft%20Documents/SDLP%20books/132x0p12.pdf
+"A change of Transfer Frame Length may result in a loss of synchronization at the receiver"

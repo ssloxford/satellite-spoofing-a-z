@@ -1,0 +1,141 @@
+* ESA informal risk evaluations on downlink spoofing
+    and how this work might help formalise the process
+
+what would be useful to formalise the process?
+    * outline the cost model for the attacker in terms of hardware procurement
+    * how far can you stay away from the station - the perimeter is seen as protected
+        so if we can show that <20k cost means you can be further than 1km, that's an issue
+        in Holland, max dish size you can have is 2.5m across
+        if you try to procure a larger antenna, eyebrows are raised
+    * classify the attacker and risk models, motivated amateurs
+        classify risk to commercial operations
+        the nation state attack is clearly known
+        and evaluated rigorously
+
+        make a point of protecting downlink data
+            commercial losses
+            frequency surveillance possible, integrity and 
+
+        classified when loss-of-life involved, processes surround that
+        
+
+Starting point: the judgment was that groundstations are geographically isolated, so driving a van up there within 1km would be obvious from physical presence
+More jamming consideration: 
+Decision made early on to encrypt the downlink - which ones?
+    it's a gov project - security thinking of risk avoidance at the start
+    legal mandate forced their hand
+        satellite systems that collect EOS of a certian resolution, high value, then the downlink has to be protected, evaluated by BSI comsec of Germany, as if it were restricted data - lowest level of gov classification
+
+downlink: mainly that Implementing crypto costs a lot of money
+uplink: safety experts fiercely opposed to losing control, as it's a point of failure
+    this can be overcome by holding to the same rigorous safety standards as the computer decoding the commands
+    it's a historic fear
+    CCSDS standardisation TM encryption aims to reduce cost points
+
+Every mission has differnet pain/cost points, and depends on gs capabilities
+gs has spectrum analyser - how used?
+    has built-in decoder modules
+
+longer observation times would be needed to characterise contributions to nonlinearity
+atmospheric conditions change, and satellite amps are sometimes nonlinear near saturation point
+
+experienced gs engineer might be able to detect it
+
+so in general, no detection is done for this
+    so attackers don't need to be too stealthy atm for short-term attacks
+
+countermeasures being taken:
+    * diagnose jamming (unintentional sometimes)
+    * carrier ID - normal signal overlaid by weak spread spectrum, like a phone number to call
+    * not seen in the downlink, because requires dedicated hardware
+
+recommend: identify overshadowing by adding physical layer to legit signal
+    drives cost factor up for the attacker
+
+drones being considered flying 1-2km above gs - not in signal path,
+RF direction finding devices being proposed - are they implemented?
+
+* channel modelling and its relation to the threat model
+    how in-depth do we need - e.g. the papers sent through, or just free space path loss
+    do any recei
+
+This is very hard to say in general. Ground stations may also employ
+a separate multi-segment antenna tied to a frequency monitoring
+system which would be capable of detecting RF energy arriving at
+"angles" which do not match elevation+azimuth from the expected
+satellite source.
+
+It depends on the type of ground station - specifics of space systems
+
+* RF experiments on additional frequencies
+    X-band is good - many EOS downlink in X-band, so it's representative
+    the latest ones downlink in Ka because they downlink so much data
+        this is where the trend is going
+    telecommand S-band, moving to X or K
+
+* we really run the experiment
+    main thing is scaling - size of a real-world X-band ground station is unknown
+        but the theory of the parabolic dish is well-known, we scale and arrive at same characteristics
+
+    can emulate tracking
+
+    needs to be a dish for sure
+    continuous tracking
+
+    a more complex modulation scheme gives the legitimate owner a higher observability - you can see the nonlinearlities more easily, phase dependencies seen more easily
+    today's EOS use this - you're talking 600Mbit at downlink   
+    QPSK or higher
+
+* uplink qs
+    we'd have to look at
+    if you decide not to protect, you have to consider a malicious command by talking to it over another country
+
+    overshadowing - when you have a legitimate lock
+        so you'd immediate commands
+        how would the groundstation detect the loss of a lock
+        you'd do a frequency sweep
+
+    talented amateurs - what can they do?
+
+    if it's a cubesat that doesn't have propulsion, then you don't have to care
+        the country you launch from takes responsibility
+
+    paper's less useful
+
+* experiment of brute-forcing TC packets
+    more expensive satellites have electrical protections, like failures
+        there's multiple redundancies, and there are no telecommands to disconnect from supply
+    Chatham house - made bizarre claims like orienting solar arrays to damage them, which was nonsense
+    the amount of physical damage is limited, until propulsion systems involved
+    empty propellant to end the satellite's life
+    everything else has to be continuous
+        implement telecommand protection
+
+
+our paper: systematising the risk evaluation of
+> overshadowing attacks, and an exploration of countermeasures.
+
+he likes the idea of economic complexities on attacking and defending side
+
+potential French partner in channel modelling and amplifiers etc.
+
+- coding gain qs
+    the difference between overshadowing and jamming
+    he's seen back-of-envelope reasoning - if the decoder has a lock, then you need multiple dbs to obtain the lock on the other transmission
+        need to compare to other
+        in GNSS you're below the noise floor so it's more possible
+            how you slowly increase signal power to take over, to lift off other signal
+            how to gently insert yourself
+
+- modulation gain
+- antenna attenuation
+- other protocol features
+
+
+If we want to make impact, keep commercial attacks/defence in mind, without gov agency doing electronic warfare
+    gives a good feel for terrorists, for example
+
+Follow-on:
+* whether SDRs can be used to build detection modules at the ground station, looking at constellation plot distortions
+
+Knut is happy to review, subject to availability

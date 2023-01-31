@@ -1,0 +1,6 @@
+To analyse CRCs, check the CRC zoo:
+https://users.ece.cmu.edu/~koopman/crc/#notation
+
+For the SDLP ones:
+https://users.ece.cmu.edu/~koopman/crc/crc16.html
+https://users.ece.cmu.edu/~koopman/crc/c16/0x8810_len.txt

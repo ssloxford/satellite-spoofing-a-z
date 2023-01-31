@@ -138,7 +138,7 @@ class transmit(gr.top_block, Qt.QWidget):
                 2000,
                 window.WIN_HAMMING,
                 6.76))
-        self.blocks_wavfile_source_0 = blocks.wavfile_source('loop.wav', True)
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('/home/edd/dev/downlink-paper/dish_attenuation/loop_with_silence.wav', True)
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_float*1, samp_rate,True)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(0.8)
         self.analog_frequency_modulator_fc_0 = analog.frequency_modulator_fc(0.196)
