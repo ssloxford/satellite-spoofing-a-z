@@ -1,0 +1,17 @@
+Estimation functions: https://ieee802.org/16/tg1/phy/contrib/802161pc-00_33.pdf
+    this code used a lot in the DVB environment
+    "has mature implementations in silicon that closely approximate the theoretical performance predicted for the code"
+    "been shown to yield results that very closely approximate simulation results"
+
+cites the method in: https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=554361&casa_token=xCO1HlduI5cAAAAA:CtXnglXhXJK9VLszpw9eCDrz0vCH_Auf6oP6t-YhlZVDldo05078oOauqpgcKJ5rce53J6A&tag=1
+
+This provides the "union bound" on the sequence error rate, and graphs the standard bound vs the improved bound
+
+Some of the values of Cd are found in (but confusingly not all, and there are three tables that seem the same but are also different?):
+https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1096180&casa_token=cTR7MgYHHBYAAAAA:l3MZSyPDyj168IJTbQjh_rkUyJbk806QpodnAxQRm1pjHWATF14clbQJhMDV9_T1abjAadY&tag=1
+
+Paper "Concatenated Reed–Solomon/Convolutional Coding for Data Transmission in CDMA-Based Cellular Systems", equation 5, confirms the formula involving Cd
+
+
+
+https://ieeexplore.ieee.org/document/638463 - viterbi + rs gives 7.1dB BER at 10^-5
