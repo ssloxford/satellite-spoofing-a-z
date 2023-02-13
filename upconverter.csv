@@ -1,0 +1,33 @@
+Freq [GHz],Name,COTS,PnP / mod / ham,RF IC,Ebay,Stealth antenna,Gain antenna
+1.5,"GPS, Gallileo, Iridium",$300 SDR,No converter need,No converter need,No converter need,,
+8.1,"Nasa EOS, Planetlabs","$8,659.12
+8.6-9.3
+20dBm
+https://www.etlsystems.com/catalogue/rf-components-buy-online-get-instant-quotes/frequency-converters/s-band-197-27-ghz-x-band",,"PCB ~$100
+Mixer $72 (https://store.qorvo.com/products/detail/cmd251c3-qorvo/677617/)
+Amp $80 2W (https://store.qorvo.com/products/detail/qpa2598-qorvo/658567/)
+Amp $144 10W (https://store.qorvo.com/products/detail/tga2752-sm-qorvo/496552/)",,"99EUR, ??gain","303EUR, 38 dBi
+https://www.rfhamdesign.com/products/parabolicdishkit/1meterdishkit/index.php
+https://www.rfhamdesign.com/downloads/rf-hamdesign-pricelist.pdf
+https://www.rfhamdesign.com/products/dish-feeds/single-band-dish-feed/index.php"
+11.7,"Startlink, OneWeb","$8,659.12
+10.7-11.7, 11.7-12.75
+27dBm
+https://www.etlsystems.com/catalogue/rf-components-buy-online-get-instant-quotes/frequency-converters/l-band-950-1950-mhz-ku
+https://www.etlsystems.com/catalogue/rf-components-buy-online-get-instant-quotes/frequency-converters/l-band-950-2000-mhz-ku ",,"PCB ~$100
+Mixer <$100 (https://store.qorvo.com/products/detail/cmd178-qorvo/676707/)
+Amp $80 2W (https://store.qorvo.com/products/detail/qpa2598-qorvo/658567/)",,,
+19.7,"Inmar, alpha","$19,211.47
+19.2-20.2
+25dBm
+https://www.etlsystems.com/sites/default/files/products/downloads/BUCKX-192-7210%20v1.0.pdf
+https://www.etlsystems.com/catalogue/rf-components-buy-online-get-instant-quotes/frequency-converters/l-band-950-1950mhz-ka","Modify P2P microwave hardware
+High frequency LO difficult, bandpass filter also difficult, but optional
+
+
+","PCB ~$100
+Mixer <$100 (https://store.qorvo.com/products/detail/cmd178-qorvo/676707/)
+Amp $200 10W (https://store.qorvo.com/products/detail/tga4548-sm-qorvo/576787/)","$500-2000
+Frequency varies, condition unknown
+4-10W typical
+https://www.ebay.co.uk/itm/204149706364",,
