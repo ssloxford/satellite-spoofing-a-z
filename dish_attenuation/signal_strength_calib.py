@@ -7,7 +7,7 @@
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
 # Author: maraly
-# GNU Radio version: 3.9.8.0
+# GNU Radio version: v3.9.2.0-85-g08bb05c1
 
 from distutils.version import StrictVersion
 
@@ -28,6 +28,7 @@ from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
 from gnuradio import analog
+from gnuradio import audio
 from gnuradio import blocks
 from gnuradio import filter
 from gnuradio import gr
@@ -97,11 +98,11 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.sig_delta = sig_delta = 213828
+        self.sig_delta = sig_delta = 332828
         self.show_lpf = show_lpf = 1
         self.samp_rate = samp_rate = 3000000
         self.gain = gain = 0
-        self.freq = freq = 436600000
+        self.freq = freq = 744800000
         self.exp_name = exp_name = '0'
         self.exp_angle = exp_angle = 0
         self.agc_mode = agc_mode = 0
@@ -110,7 +111,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self._sig_delta_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Signal offset', min_freq_hz = 100000, max_freq_hz=1000000, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_sig_delta,outputmsgname="'sig_delta'".replace("'",""))
-        self._sig_delta_msgdigctl_win.setValue(213828)
+        self._sig_delta_msgdigctl_win.setValue(332828)
         self._sig_delta_msgdigctl_win.setReadOnly(False)
         self.sig_delta = self._sig_delta_msgdigctl_win
 
@@ -135,14 +136,14 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         for c in range(8, 9):
             self.top_grid_layout.setColumnStretch(c, 1)
         self._gain_range = Range(0, 73, 1, 0, 200)
-        self._gain_win = RangeWidget(self._gain_range, self.set_gain, "Input gain", "counter_slider", float, QtCore.Qt.Horizontal)
+        self._gain_win = RangeWidget(self._gain_range, self.set_gain, 'Input gain', "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_grid_layout.addWidget(self._gain_win, 1, 4, 1, 5)
         for r in range(1, 2):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(4, 9):
             self.top_grid_layout.setColumnStretch(c, 1)
         self._freq_msgdigctl_win = qtgui.MsgDigitalNumberControl(lbl = 'Center frequency', min_freq_hz = 80e6, max_freq_hz=3.5e9, parent=self,  thousands_separator=",",background_color="black",fontColor="white", var_callback=self.set_freq,outputmsgname="'freq'".replace("'",""))
-        self._freq_msgdigctl_win.setValue(436600000)
+        self._freq_msgdigctl_win.setValue(744800000)
         self._freq_msgdigctl_win.setReadOnly(False)
         self.freq = self._freq_msgdigctl_win
 
@@ -152,7 +153,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         for c in range(0, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
         self._exp_name_tool_bar = Qt.QToolBar(self)
-        self._exp_name_tool_bar.addWidget(Qt.QLabel("Dish name" + ": "))
+        self._exp_name_tool_bar.addWidget(Qt.QLabel('Dish name' + ": "))
         self._exp_name_line_edit = Qt.QLineEdit(str(self.exp_name))
         self._exp_name_tool_bar.addWidget(self._exp_name_line_edit)
         self._exp_name_line_edit.returnPressed.connect(
@@ -163,7 +164,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         for c in range(4, 5):
             self.top_grid_layout.setColumnStretch(c, 1)
         self._exp_angle_tool_bar = Qt.QToolBar(self)
-        self._exp_angle_tool_bar.addWidget(Qt.QLabel("Angle" + ": "))
+        self._exp_angle_tool_bar.addWidget(Qt.QLabel('Angle' + ": "))
         self._exp_angle_line_edit = Qt.QLineEdit(str(self.exp_angle))
         self._exp_angle_tool_bar.addWidget(self._exp_angle_line_edit)
         self._exp_angle_line_edit.returnPressed.connect(
@@ -179,7 +180,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self._agc_mode_labels = ['Off', 'Sweep', 'AGC']
         # Create the combo box
         self._agc_mode_tool_bar = Qt.QToolBar(self)
-        self._agc_mode_tool_bar.addWidget(Qt.QLabel("'agc_mode'" + ": "))
+        self._agc_mode_tool_bar.addWidget(Qt.QLabel("agc_mode: "))
         self._agc_mode_combo_box = Qt.QComboBox()
         self._agc_mode_tool_bar.addWidget(self._agc_mode_combo_box)
         for _label in self._agc_mode_labels: self._agc_mode_combo_box.addItem(_label)
@@ -227,7 +228,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_sink_x_0_0.set_update_time(1.0/10)
-        self._qtgui_sink_x_0_0_win = sip.wrapinstance(self.qtgui_sink_x_0_0.qwidget(), Qt.QWidget)
+        self._qtgui_sink_x_0_0_win = sip.wrapinstance(self.qtgui_sink_x_0_0.pyqwidget(), Qt.QWidget)
 
         self.qtgui_sink_x_0_0.enable_rf_freq(False)
 
@@ -304,13 +305,8 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
             self.qtgui_number_sink_0_0_0.set_factor(i, factor[i])
 
         self.qtgui_number_sink_0_0_0.enable_autoscale(False)
-<<<<<<< Updated upstream
         self._qtgui_number_sink_0_0_0_win = sip.wrapinstance(self.qtgui_number_sink_0_0_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_number_sink_0_0_0_win, 1, 2, 1, 1)
-=======
-        self._qtgui_number_sink_0_0_0_win = sip.wrapinstance(self.qtgui_number_sink_0_0_0.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._qtgui_number_sink_0_0_0_win, 1, 2, 1, 2)
->>>>>>> Stashed changes
         for r in range(1, 2):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(2, 3):
@@ -346,7 +342,7 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
             self.qtgui_number_sink_0.set_factor(i, factor[i])
 
         self.qtgui_number_sink_0.enable_autoscale(False)
-        self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.qwidget(), Qt.QWidget)
+        self._qtgui_number_sink_0_win = sip.wrapinstance(self.qtgui_number_sink_0.pyqwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._qtgui_number_sink_0_win, 1, 0, 1, 2)
         for r in range(1, 2):
             self.top_grid_layout.setRowStretch(r, 1)
@@ -360,10 +356,10 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.blocks_selector_0 = blocks.selector(gr.sizeof_gr_complex*1,show_lpf,0)
         self.blocks_selector_0.set_enabled(True)
         self.blocks_rotator_cc_0 = blocks.rotator_cc((-sig_delta)*6.28318530718 /samp_rate, False)
-        self.blocks_null_sink_1 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         self.blocks_keep_one_in_n_0 = blocks.keep_one_in_n(gr.sizeof_gr_complex*1, 10)
         self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
+        self.audio_sink_0 = audio.sink(20000, '', True)
         self.analog_fm_demod_cf_0 = analog.fm_demod_cf(
         	channel_rate=300000,
         	audio_decim=15,
@@ -375,12 +371,13 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         )
 
 
+
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.epy_block_0, 'messageOutput'), (self.epy_block_3, 'saveButton'))
         self.msg_connect((self.save_button, 'pressed'), (self.epy_block_3, 'saveButton'))
-        self.connect((self.analog_fm_demod_cf_0, 0), (self.blocks_null_sink_1, 0))
+        self.connect((self.analog_fm_demod_cf_0, 0), (self.audio_sink_0, 0))
         self.connect((self.blocks_complex_to_mag_0, 0), (self.epy_block_2, 0))
         self.connect((self.blocks_keep_one_in_n_0, 0), (self.analog_fm_demod_cf_0, 0))
         self.connect((self.blocks_rotator_cc_0, 0), (self.blocks_selector_0, 0))
@@ -389,8 +386,8 @@ class signal_strength_calib(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_selector_0, 0), (self.qtgui_sink_x_0_0, 0))
         self.connect((self.epy_block_1, 0), (self.epy_block_0, 0))
         self.connect((self.epy_block_1, 0), (self.qtgui_number_sink_0, 0))
-        self.connect((self.epy_block_2, 0), (self.epy_block_3, 0))
         self.connect((self.epy_block_2, 1), (self.epy_block_3, 1))
+        self.connect((self.epy_block_2, 0), (self.epy_block_3, 0))
         self.connect((self.epy_block_2, 0), (self.qtgui_number_sink_0_0_0, 0))
         self.connect((self.epy_block_2, 1), (self.qtgui_number_sink_0_0_0_0, 0))
         self.connect((self.filter_fft_low_pass_filter_0, 0), (self.blocks_complex_to_mag_0, 0))

@@ -23,7 +23,6 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: Not titled yet
-    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -110,7 +109,7 @@ blocks:
     readOnly: 'False'
     relBackgroundColor: black
     relFontColor: white
-    value: '436600000'
+    value: '744800000'
   states:
     bus_sink: false
     bus_source: false
@@ -192,7 +191,7 @@ blocks:
     readOnly: 'False'
     relBackgroundColor: black
     relFontColor: white
-    value: '213828'
+    value: '332828'
   states:
     bus_sink: false
     bus_source: false
@@ -238,7 +237,7 @@ blocks:
     bus_structure: null
     coordinate: [1224, 188.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_complex_to_mag_0
   id: blocks_complex_to_mag
   parameters:
@@ -306,7 +305,7 @@ blocks:
     bus_structure: null
     coordinate: [1216, 112.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: blocks_rotator_cc_0
   id: blocks_rotator_cc
   parameters:
@@ -861,4 +860,3 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.9.8.0
