@@ -1,0 +1,5 @@
+shaded area - based on symbol alignment
+we're measuring the theoretical noise without victim signal to find the bound only
+flip a - in terms of attacker signal
+
+* attacker budgeting - link these to the results

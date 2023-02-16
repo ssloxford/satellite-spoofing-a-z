@@ -80,7 +80,7 @@ class transmit(gr.top_block, Qt.QWidget):
         ##################################################
         self.samp_rate = samp_rate = 44100
         self.gain = gain = 0
-        self.frequency = frequency = 144012500
+        self.frequency = frequency = 436795000
 
         ##################################################
         # Blocks

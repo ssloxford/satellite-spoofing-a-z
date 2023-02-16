@@ -1,0 +1,2 @@
+Notes on systems attackable by SDR
+https://www.rtl-sdr.com/tag/replay-attack/

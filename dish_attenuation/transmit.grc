@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '144012500'
+    value: '436795000'
   states:
     bus_sink: false
     bus_source: false

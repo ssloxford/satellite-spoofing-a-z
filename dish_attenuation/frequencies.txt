@@ -33,6 +33,13 @@ X (8-12GHz)
 QO-100
 10491.000 - 10499.000 MHz Downlink
 
+10495 MHz
+
+10450 - 10514
+
++45MHz
+
+
 Ku (11-20GHz)
 No amateur bands
 

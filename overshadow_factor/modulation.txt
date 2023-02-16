@@ -1,3 +1,8 @@
+Modulation security:
+https://www.frontiersin.org/articles/10.3389/frcmn.2022.850781/full
+https://www.schneier.com/blog/archives/2022/08/hacking-starlink.html
+
+
 BPSK derivation:
 http://www.dsplog.com/2007/08/05/bit-error-probability-for-bpsk-modulation/
 
@@ -9,6 +14,10 @@ www.dsplog.com/2008/03/18/symbol-error-rate-for-16psk/
 
 QAM is from same website
 
+https://ntrs.nasa.gov/api/citations/20170006541/downloads/20170006541.pdf
+QAM, PSK, and APSK are commonly used in space comms, apparently
+
+DVBS-2 uses APSK
 
 Tells us how to calculate the actual Shannon limit: (p5)
 https://ocw.mit.edu/courses/6-451-principles-of-digital-communication-ii-spring-2005/b286123989945cef13e5a9aa20e56a18_chap4.pdf
@@ -18,6 +27,9 @@ https://www.amsat.org/amsat/articles/g3ruh/105.html
 
 Hard/soft decision penalty:
     10*log(PI/2) according to amsat link
+
+    Cai_2020_IOP_Conf._Ser. _Mater._Sci._Eng._719_012037.pdf
+        graphs log-likelihood ratio soft decoding schemes
 
     more subtle formulae here:
     http://www.dsplog.com/2012/03/15/hamming-code-soft-hard-decode/
