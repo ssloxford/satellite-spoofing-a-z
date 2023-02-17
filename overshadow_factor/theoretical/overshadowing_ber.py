@@ -100,7 +100,7 @@ def bin_to_gray(x):
 
 # returns the number of bit differences between x and y
 def bit_errors(x: np.ndarray, y: np.ndarray):
-    return np.vectorize(lambda x, y: (x ^ y).bit_count())(x, y)
+    return np.vectorize(lambda x, y: bin(x ^ y).count("1"))(x, y)
 
 # Encode the nth symbol in PSK
 def encode_m_psk(n, M):
@@ -193,7 +193,7 @@ def run_qam_simulation(noise_func, N: int, M: int):
 # model BER in to BER out
 # EbEvdB - signal-to-victim ratio in dBs
 def run_ber_simulation(EbEvdB: float, N: int, M: int):
-    a = 1/(10**(EbEvdB/10))
+    a = 1/(10**(EbEvdB/20))
 
     unaligned_ber = run_simulation(
         lambda x: psk_offset(x, a), N, M

@@ -1,3 +1,5 @@
 *.ods#
 *.ipynb_checkpoints/
 overleaf/
+__pycache__
+notebook_env.db
