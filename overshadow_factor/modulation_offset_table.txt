@@ -1,0 +1,43 @@
+https://directreadout.sci.gsfc.nasa.gov/documents/satellite_gen/DAS_UG.pdf
+
+Terra/Aqua (QPSK)
+Received gain: -151.8
+Receiver noise:
+
+Coding offset: 2, 11
+
+Antenna attenuation (worst):
+Antenna attenuation (sidelobe):
+
+
+Receiver noise temperature
+Terra/Aqua main GS: 155.0 K
+Cryocooling: 60K
+Room temperature: 273K
+Pretty hot: 360K
+
+GPS?
+
+
+Modulation offset table
+
+Modulation scheme, receiver noise temperature, *receiver noise, EaEvdB cutoff
+
+#
+
+Assume thermal noise of 300K
+
+Maths:
+
+
+
+
+TODO:
+/ get the bit rate for each satellite system into the table
+* add antenna polar plot theoretical values to attenuation table (discuss with Marcell as he had ideas)
+* consider getting more theoretical gain patterns in there
+
+
+* pseudocode to show how noise temp is converted to the EaEbdB threshold
+* thermal noise table, leading to modulation offset
+* add receiver dish sizes to satellite table

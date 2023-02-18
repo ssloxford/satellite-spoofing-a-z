@@ -49,7 +49,16 @@ def get_measurements(path):
 
         return angles, measurements
 
-fig, axs = plt.subplots(2, 2, subplot_kw={'projection': 'polar'}, figsize=(8, 9))
+
+def single_slit(x, size, wavelength):
+    a = (np.sin((np.pi * size * np.sin(x))/wavelength)**2) / ((np.pi * size * np.sin(x))/wavelength)**2
+    return 10*np.log10(a)
+
+angles = np.arange(-0.5*np.pi, 0.5*np.pi, 0.001)
+plt.plot(angles, np.vectorize(lambda x: single_slit(x, 0.3, 3E8/11.7E9))(angles))
+plt.show()
+
+fig, axs = plt.subplots(3, 2, subplot_kw={'projection': 'polar'}, figsize=(8, 9))
 
 axs[0][0].title.set_text("VHF Yagi Varied Elevation")
 axs[0][0].plot(*get_measurements("test_yagi_roof_vhf_pitch.csv"))
@@ -70,6 +79,7 @@ axs[1][1].title.set_text("UHF Yagi Varied Azimuth")
 axs[1][1].plot(*get_measurements("test_yagi_roof_uhf_azimuth.csv"))
 axs[1][1].plot(*get_measurements("test_yagi_field_uhf_azimuth.csv"))
 
+
 plt.setp(axs, ylim=[-45, 0])
 
 
@@ -83,5 +93,5 @@ for ax in [e for l in axs for e in l]:
 fig.legend(("Urban Environment", "Open Field"), loc="lower center", bbox_to_anchor=(0.5, 0))
 fig.tight_layout()
 
-plt.savefig("polar.pdf", bbox_inches='tight')
-#plt.show()
+#plt.savefig("polar.pdf", bbox_inches='tight')
+plt.show()

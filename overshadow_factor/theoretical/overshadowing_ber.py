@@ -218,7 +218,7 @@ if __name__ == "__main__":
     qam_aligned = qam_offset_aligned(points, 1, 16)
 
     # Generate random QAM
-    #qam_points = encode_m_qam(np.random.randint(0, 64, 1000), 64)
+    qam_points = encode_m_qam(np.random.randint(0, 64, 1000), 64)
 
     fig, ax = plt.subplots()
     #ax.set_xlim(-1,1)
@@ -230,5 +230,5 @@ if __name__ == "__main__":
     ax.plot(list(map(lambda x: x.real, psk)), list(map(lambda x: x.imag, psk)), linestyle='None', marker='o')
     ax.plot(list(map(lambda x: x.real, psk_aligned)), list(map(lambda x: x.imag, psk_aligned)), linestyle='None', marker='o')
     ax.plot(list(map(lambda x: x.real, qam_aligned)), list(map(lambda x: x.imag, qam_aligned)), linestyle='None', marker='o')
-    ax.plot(list(map(lambda x: x.real, qam)), list(map(lambda x: x.imag, qam)), linestyle='None', marker='o')
+    #ax.plot(list(map(lambda x: x.real, qam)), list(map(lambda x: x.imag, qam)), linestyle='None', marker='o')
     plt.show()
