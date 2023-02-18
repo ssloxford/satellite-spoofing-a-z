@@ -1,13 +1,14 @@
 Freq [GHz],Name,COTS,Ebay,PnP / mod / ham,RF IC,Amp module,Amp IC,Stealth antenna,Gain antenna
 1.6,"GPS, Gallileo, Iridium",No converter needed,No converter need,No converter need,No converter need,"$1086 5W (https://www.minicircuits.com/WebStore/dashboard.html?model=ZHL-5W-2GX%2B)
-$1604 10W (https://www.minicircuits.com/WebStore/dashboard.html?model=ZHL-10W-2G%2B)",$134 10W (https://store.qorvo.com/products/detail/qpa2237-qorvo/582229/),,
+$1604 10W (https://www.minicircuits.com/WebStore/dashboard.html?model=ZHL-10W-2G%2B)",$134 10W (https://store.qorvo.com/products/detail/qpa2237-qorvo/582229/),~10$ GPS patch,"21dBi, $unknown
+https://www.european-antennas.co.uk/media/6999/ds1258-161014r.pdf"
 8.1,"Nasa EOS, Planetlabs","$8,659.12
 8.6-9.3
 20dBm
 https://www.etlsystems.com/catalogue/rf-components-buy-online-get-instant-quotes/frequency-converters/s-band-197-27-ghz-x-band",,,"PCB ~$100
 Mixer $72 (https://store.qorvo.com/products/detail/cmd251c3-qorvo/677617/)
 ",$1638 3W (https://www.minicircuits.com/WebStore/dashboard.html?model=ZVE-3W-183%2B),"$80 2W (https://store.qorvo.com/products/detail/qpa2598-qorvo/658567/)
-$144 10W (https://store.qorvo.com/products/detail/tga2752-sm-qorvo/496552/)","99EUR, ??gain","303+99EUR, 38 dBi
+$144 10W (https://store.qorvo.com/products/detail/tga2752-sm-qorvo/496552/)","99EUR feed, 0 gain","303 EUR, 38 dBi + 99 EUR feed
 https://www.rfhamdesign.com/products/parabolicdishkit/1meterdishkit/index.php
 https://www.rfhamdesign.com/downloads/rf-hamdesign-pricelist.pdf
 https://www.rfhamdesign.com/products/dish-feeds/single-band-dish-feed/index.php"
@@ -17,8 +18,12 @@ https://www.rfhamdesign.com/products/dish-feeds/single-band-dish-feed/index.php"
 https://www.etlsystems.com/catalogue/rf-components-buy-online-get-instant-quotes/frequency-converters/l-band-950-1950-mhz-ku
 https://www.etlsystems.com/catalogue/rf-components-buy-online-get-instant-quotes/frequency-converters/l-band-950-2000-mhz-ku ",,,"PCB ~$100
 Mixer $78 (https://store.qorvo.com/products/detail/cmd178-qorvo/676707/)
-",$1638 3W (https://www.minicircuits.com/WebStore/dashboard.html?model=ZVE-3W-183%2B),$80 2W (https://store.qorvo.com/products/detail/qpa2598-qorvo/658567/),,"$1700, 20dBi
-https://www.fairviewmicrowave.com/wr-62-standard-gain-horn-20-db-n-fm9854b-nf-20-p.aspx"
+",$1638 3W (https://www.minicircuits.com/WebStore/dashboard.html?model=ZVE-3W-183%2B),$80 2W (https://store.qorvo.com/products/detail/qpa2598-qorvo/658567/),"99EUR feed, 0 gain
+$1700, 20dBi
+https://www.fairviewmicrowave.com/wr-62-standard-gain-horn-20-db-n-fm9854b-nf-20-p.aspx","303 EUR 38 dBi + 99 EUR feed
+https://www.rfhamdesign.com/products/parabolicdishkit/1meterdishkit/index.php
+https://www.rfhamdesign.com/downloads/rf-hamdesign-pricelist.pdf
+https://www.rfhamdesign.com/products/dish-feeds/single-band-dish-feed/index.php"
 19.7,"Inmar, alpha","$19,211.47
 19.2-20.2
 25dBm
@@ -32,5 +37,5 @@ https://wiki.microwavers.org.uk/24_GHz
 High frequency LO difficult, bandpass filter also difficult, but optional
 ","PCB ~$100
 Mixer $78 (https://store.qorvo.com/products/detail/cmd178-qorvo/676707/)
-",,$200 10W (https://store.qorvo.com/products/detail/tga4548-sm-qorvo/576787/),,"$750
-34dBi https://excel-wireless.com/product/microwave-antenna-k-band-17-7-19-7ghz-dual-pol-34-dbi-gain-0-3m-ultra-high-performance-copy-copy/"
+",,$200 10W (https://store.qorvo.com/products/detail/tga4548-sm-qorvo/576787/),,"$750 34dBi
+https://excel-wireless.com/product/microwave-antenna-k-band-17-7-19-7ghz-dual-pol-34-dbi-gain-0-3m-ultra-high-performance-copy-copy/"
