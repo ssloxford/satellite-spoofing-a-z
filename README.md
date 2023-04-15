@@ -23,11 +23,11 @@ Compiler Info: Python interpreter v3.11
 For the simulations:
 
 * python3
-* py3-typer
-* py3-numpy
-* py3-matplotlib
-* py3-seaborn
-* py3-tqdm
+* [python3-typer](https://pypi.org/project/typer/)
+* [python3-numpy](https://pypi.org/project/numpy/)
+* [python3-matplotlib](https://pypi.org/project/matplotlib/)
+* [python3-seaborn](https://pypi.org/project/seaborn/)
+* [python3-tqdm](https://pypi.org/project/tqdm/)
 
 For the real-world experiments:
 
@@ -66,11 +66,15 @@ For the real-world experiments, the following additional equipment is required:
 
 ### Running the code
 
+The code can be run either in the supplied virtual machine (VM), or on your own machine.
+When not using the VM, the python packages can be installed either using your system package manager, or instead with `pip` as follows:
+
+`pip install typer numpy matplotlib seaborn tqdm`
+
 The figures and tables from the paper can be generated with `./runExperiments.sh`.
 Since the default number of runs of each experiment is high, the computation time is long.
 You can therefore alternatively run `./runExperiments.sh --fast` to generate approximate figures with a reduced number of samples.
 
-Alternatively, the code can be run in the supplied virtual machine.
 
 #### Using the vitual machine
 
